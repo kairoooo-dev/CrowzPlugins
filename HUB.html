@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<title>Crowz Hub · Community</title>
+<meta name="description" content="The Crowz community hub — live chat, online users, plugin updates and more.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 10v12L16 30 2 22V10Z' fill='%23000' stroke='%2338bdf8' stroke-width='2'/%3E%3Ctext x='16' y='22' font-size='14' font-weight='700' text-anchor='middle' fill='%2338bdf8' font-family='Arial'%3EH%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<canvas id="rain-canvas" aria-hidden="true"></canvas>
+
+<header class="site-header">
+    <a class="brand" href="../Crowz-Plugins/index.html">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M16 2 30 10v12L16 30 2 22V10Z" fill="none" stroke="currentColor" stroke-width="2.2"/>
+            <path d="M11 21V11h2.4l4.6 6.4V11H20v10h-2.4L13 14.6V21Z" fill="currentColor"/>
+        </svg>
+        <span class="brand-name">Crowz<span>-</span>Hub</span>
+    </a>
+    <nav class="nav">
+        <a href="../Crowz-Plugins/index.html">Plugins</a>
+        <a href="#chat">Live Chat</a>
+        <a href="#leaderboard">Leaderboard</a>
+        <a href="https://discord.gg/NG2hyARph" target="_blank" rel="noopener">Discord</a>
+    </nav>
+    <div class="online-badge" id="online-badge">
+        <span class="online-dot"></span>
+        <span id="online-count">0</span> online
+    </div>
+    <div class="account-area" id="account-area"></div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+    </button>
+</header>
+
+<main>
+
+    <!-- Hero -->
+    <section class="hub-hero">
+        <div class="hub-hero-glow"></div>
+        <p class="eyebrow">Community Hub</p>
+        <h1>The server owner's <em>living room.</em></h1>
+        <p class="hub-sub">Hang out, share setups, report bugs, or just watch the download counter tick up. Everyone here runs the same plugins you do.</p>
+        <div class="hub-hero-stats">
+            <div class="hub-stat">
+                <div class="hub-stat-icon">💬</div>
+                <div><strong id="stat-messages">0</strong><span>messages today</span></div>
+            </div>
+            <div class="hub-stat">
+                <div class="hub-stat-icon">👁</div>
+                <div><strong id="stat-online">0</strong><span>online now</span></div>
+            </div>
+            <div class="hub-stat">
+                <div class="hub-stat-icon">⬇</div>
+                <div><strong id="stat-downloads">0</strong><span>total downloads</span></div>
+            </div>
+            <div class="hub-stat">
+                <div class="hub-stat-icon">🔌</div>
+                <div><strong id="stat-plugins">0</strong><span>plugins</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Announcements -->
+    <section class="announcements" id="announcements">
+        <div class="section-header">
+            <div>
+                <p class="eyebrow">Announcements</p>
+                <h2>What's new</h2>
+            </div>
+        </div>
+        <div class="announce-list" id="announce-list">
+            <div class="announce-card">
+                <div class="announce-badge">New</div>
+                <div class="announce-body">
+                    <h3>Welcome to the Hub</h3>
+                    <p>This is the new community hub. Chat with other server owners, see who's online, and keep track of plugin updates. Open this page in multiple tabs to see the live features in action.</p>
+                    <span class="announce-time">Just now</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chat + Activity grid -->
+    <section class="hub-grid" id="chat">
+        <div class="section-header">
+            <div>
+                <p class="eyebrow">Live Chat</p>
+                <h2>Global chat</h2>
+            </div>
+            <div class="online-indicator">
+                <span class="online-dot"></span>
+                <span id="chat-online">0</span> in chat
+            </div>
+        </div>
+
+        <div class="hub-columns">
+            <!-- Chat panel -->
+            <div class="chat-panel">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="chat-system">Welcome to Crowz Hub! Be nice, share tips, and have fun.</div>
+                </div>
+                <div class="chat-typing" id="chat-typing" hidden>
+                    <span class="typing-dots"><span></span><span></span><span></span></span>
+                    <span id="typing-who"></span> is typing...
+                </div>
+                <form class="chat-input-row" id="chat-form">
+                    <input type="text" id="chat-input" placeholder="Type a message..." autocomplete="off" maxlength="500" aria-label="Chat message">
+                    <button type="submit" class="btn btn-primary btn-sm" id="chat-send">Send</button>
+                </form>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="hub-sidebar">
+                <!-- Online users -->
+                <div class="sidebar-card">
+                    <h3>Online now <span class="online-count-badge" id="sidebar-online">0</span></h3>
+                    <div class="online-list" id="online-list">
+                        <p class="empty-text">No one here yet. Open another tab to see it work!</p>
+                    </div>
+                </div>
+
+                <!-- Activity feed -->
+                <div class="sidebar-card">
+                    <h3>Recent activity</h3>
+                    <div class="activity-feed" id="activity-feed">
+                        <p class="empty-text">Activity will show up here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top plugins leaderboard -->
+    <section class="leaderboard" id="leaderboard">
+        <div class="section-header">
+            <div>
+                <p class="eyebrow">Leaderboard</p>
+                <h2>Most downloaded</h2>
+            </div>
+        </div>
+        <div class="leaderboard-grid" id="leaderboard-grid"></div>
+    </section>
+
+    <!-- Quick links -->
+    <section class="quick-links">
+        <a href="../Crowz-Plugins/index.html" class="quick-link">
+            <div class="ql-icon">📦</div>
+            <h3>Browse Plugins</h3>
+            <p>Download jars, read docs, check checksums.</p>
+        </a>
+        <a href="https://discord.gg/NG2hyARph" target="_blank" rel="noopener" class="quick-link">
+            <div class="ql-icon">🎮</div>
+            <h3>Discord</h3>
+            <p>Join the community, get help, share your server.</p>
+        </a>
+        <a href="../Crowz-Plugins/upload.html" class="quick-link">
+            <div class="ql-icon">⬆️</div>
+            <h3>Upload Plugin</h3>
+            <p>Add a new plugin to the catalog.</p>
+        </a>
+        <a href="mailto:Crowzwdev@gmail.com" class="quick-link">
+            <div class="ql-icon">✉️</div>
+            <h3>Email the Dev</h3>
+            <p>Bug reports, commissions, or just to say hi.</p>
+        </a>
+    </section>
+
+</main>
+
+<footer class="site-footer">
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <a class="brand" href="../Crowz-Plugins/index.html">
+                <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+                    <path d="M16 2 30 10v12L16 30 2 22V10Z" fill="none" stroke="currentColor" stroke-width="2.2"/>
+                    <path d="M11 21V11h2.4l4.6 6.4V11H20v10h-2.4L13 14.6V21Z" fill="currentColor"/>
+                </svg>
+                <span class="brand-name">Crowz<span>-</span>Hub</span>
+            </a>
+            <p>The community hub for Crowz-Plugins server owners.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Links</h4>
+            <a href="../Crowz-Plugins/index.html">Plugins</a>
+            <a href="https://discord.gg/NG2hyARph" target="_blank" rel="noopener">Discord</a>
+            <a href="mailto:Crowzwdev@gmail.com">Email</a>
+        </div>
+    </div>
+    <div class="footer-legal">
+        <p>© 2026 CrowzDev · Built by hand, maintained by hand.</p>
+    </div>
+</footer>
+
+<script src="../Crowz-Plugins/js/plugins.js"></script>
+<script src="../Crowz-Plugins/js/store.js"></script>
+<script src="js/hub.js"></script>
+</body>
+</html>
