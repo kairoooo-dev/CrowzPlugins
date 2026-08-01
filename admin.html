@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · Crowz-Plugins</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 10v12L16 30 2 22V10Z' fill='%2314141b' stroke='%23e5484d' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<!-- Login screen -->
+<div class="login-screen" id="login-screen">
+    <form class="login-card" id="login-form">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M16 2 30 10v12L16 30 2 22V10Z" fill="none" stroke="currentColor" stroke-width="2.2"/>
+            <path d="M11 21V11h2.4l4.6 6.4V11H20v10h-2.4L13 14.6V21Z" fill="currentColor"/>
+        </svg>
+        <h1>Admin access</h1>
+        <p class="login-sub">This panel is for the site owner. The password can be changed in Settings.</p>
+        <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" required>
+        <p class="login-error" id="login-error" hidden>Wrong password. Try again.</p>
+        <button class="btn btn-primary" type="submit">Unlock panel</button>
+        <a class="login-back" href="index.html">← Back to the site</a>
+    </form>
+</div>
+
+<!-- Admin app -->
+<div class="admin-app" id="admin-app" hidden>
+
+    <aside class="sidebar">
+        <a class="brand" href="index.html">
+            <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+                <path d="M16 2 30 10v12L16 30 2 22V10Z" fill="none" stroke="currentColor" stroke-width="2.2"/>
+                <path d="M11 21V11h2.4l4.6 6.4V11H20v10h-2.4L13 14.6V21Z" fill="currentColor"/>
+            </svg>
+            <span class="brand-name">Admin</span>
+        </a>
+        <nav class="side-nav">
+            <button class="side-link active" data-view="dashboard">
+                <svg viewBox="0 0 24 24"><path d="M4 13h6V4H4v9Zm0 7h6v-5H4v5Zm10 0h6v-9h-6v9Zm0-16v5h6V4h-6Z"/></svg>
+                Dashboard
+            </button>
+            <button class="side-link" data-view="plugins">
+                <svg viewBox="0 0 24 24"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3Z"/></svg>
+                Plugins
+            </button>
+            <button class="side-link" data-view="analytics">
+                <svg viewBox="0 0 24 24"><path d="M4 20V10m6 10V4m6 16v-8m4 8H2"/></svg>
+                Analytics
+            </button>
+            <button class="side-link" data-view="settings">
+                <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7.4-3a7.4 7.4 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7.6 7.6 0 0 0-2-1.2L14.5 3h-5L9 5.6a7.6 7.6 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6a7.4 7.4 0 0 0 0 2.4l-2 1.6 2 3.4 2.4-1a7.6 7.6 0 0 0 2 1.2L9.5 21h5l.4-2.6a7.6 7.6 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6c.1-.4.1-.8.1-1.2Z"/></svg>
+                Settings
+            </button>
+        </nav>
+        <div class="side-foot">
+            <a class="side-link" href="../Crowz-admin/index.html" target="_blank">User admin</a>
+            <a class="side-link" href="index.html" target="_blank">Open site</a>
+            <button class="side-link" id="logout-btn">Log out</button>
+        </div>
+    </aside>
+
+    <div class="main">
+        <header class="topbar">
+            <h1 id="view-title">Dashboard</h1>
+            <div class="topbar-actions" id="topbar-actions"></div>
+        </header>
+
+        <!-- Dashboard -->
+        <section class="view" id="view-dashboard">
+            <div class="stat-cards" id="dash-cards"></div>
+            <div class="dash-grid">
+                <div class="panel">
+                    <h3 class="panel-title">Top plugins</h3>
+                    <div class="bars" id="dash-bars"></div>
+                </div>
+                <div class="panel">
+                    <h3 class="panel-title">Recent downloads</h3>
+                    <div class="feed" id="dash-feed"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Plugins manager -->
+        <section class="view" id="view-plugins" hidden>
+            <div class="panel">
+                <div class="table-toolbar">
+                    <div class="search-wrap">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                        <input type="text" id="plugin-search" placeholder="Search plugins..." autocomplete="off">
+                    </div>
+                    <select id="plugin-cat-filter" aria-label="Filter category">
+                        <option value="all">All categories</option>
+                        <option value="pvp">PvP</option>
+                        <option value="voice">Voice</option>
+                        <option value="security">Security</option>
+                        <option value="economy">Economy</option>
+                        <option value="utility">Utility</option>
+                        <option value="core">Core</option>
+                    </select>
+                    <button class="btn btn-primary btn-sm" id="add-plugin-btn">Add plugin</button>
+                </div>
+                <div class="table-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Plugin</th><th>Category</th><th>Tag</th><th>Version</th><th>Size</th>
+                                <th class="num">Downloads</th><th>Updated</th><th class="num">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="plugin-rows"></tbody>
+                    </table>
+                </div>
+                <p class="table-empty" id="plugin-empty" hidden>No plugins match.</p>
+            </div>
+        </section>
+
+        <!-- Analytics -->
+        <section class="view" id="view-analytics" hidden>
+            <div class="stat-cards" id="analytics-cards"></div>
+            <div class="panel">
+                <h3 class="panel-title">Downloads by plugin</h3>
+                <div class="bars bars-lg" id="analytics-bars"></div>
+                <div class="panel-foot">
+                    <span class="muted" id="analytics-note"></span>
+                    <button class="btn btn-ghost btn-sm" id="reset-stats-btn">Reset all stats</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings -->
+        <section class="view" id="view-settings" hidden>
+            <div class="panel">
+                <h3 class="panel-title">Site settings</h3>
+                <form id="settings-form" class="form-grid">
+                    <label>Site name
+                        <input type="text" name="siteName" required>
+                    </label>
+                    <label>Contact email
+                        <input type="email" name="contactEmail" required>
+                    </label>
+                    <label class="span-2">Hero tagline
+                        <textarea name="tagline" rows="3"></textarea>
+                    </label>
+                    <label>Admin password
+                        <input type="text" name="adminPassword" required>
+                    </label>
+                    <div class="span-2 form-actions">
+                        <button class="btn btn-primary btn-sm" type="submit">Save settings</button>
+                        <span class="muted" id="settings-saved" hidden>Saved.</span>
+                    </div>
+                </form>
+            </div>
+
+            <div class="panel">
+                <h3 class="panel-title">Data</h3>
+                <div class="data-actions">
+                    <button class="btn btn-ghost btn-sm" id="export-btn">Export JSON backup</button>
+                    <label class="btn btn-ghost btn-sm file-btn">Import backup
+                        <input type="file" id="import-file" accept="application/json" hidden>
+                    </label>
+                </div>
+                <p class="muted">Backups include the plugin catalog, settings and download history. Importing replaces the current data.</p>
+            </div>
+
+            <div class="panel panel-danger">
+                <h3 class="panel-title">Danger zone</h3>
+                <div class="data-actions">
+                    <button class="btn btn-ghost btn-sm" id="reset-catalog-btn">Reset catalog to defaults</button>
+                    <button class="btn btn-danger btn-sm" id="wipe-btn">Wipe everything</button>
+                </div>
+                <p class="muted">Reset catalog restores the shipped plugin list. Wipe removes the catalog, settings and all stats — the site falls back to defaults.</p>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!-- Plugin edit modal -->
+<div class="modal" id="plugin-modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel">
+        <button class="modal-close" data-close aria-label="Close">×</button>
+        <h2 id="plugin-form-title">Add plugin</h2>
+        <form id="plugin-form" class="form-grid">
+            <label>Name <input type="text" name="name" required></label>
+            <label>Jar file <input type="text" name="file" required placeholder="MyPlugin-1.0.0.jar"></label>
+            <label>Monogram <input type="text" name="monogram" maxlength="4" placeholder="MP"></label>
+            <label>Category
+                <select name="category">
+                    <option value="pvp">PvP</option>
+                    <option value="voice">Voice</option>
+                    <option value="security">Security</option>
+                    <option value="economy">Economy</option>
+                    <option value="utility">Utility</option>
+                    <option value="core">Core</option>
+                </select>
+            </label>
+            <label>Tag <input type="text" name="tag" placeholder="Flagship"></label>
+            <label>Version <input type="text" name="version" placeholder="1.0.0"></label>
+            <label>Size <input type="text" name="size" placeholder="0.4 MB"></label>
+            <label>Server target <input type="text" name="paper" placeholder="Paper 1.21+"></label>
+            <label>Updated <input type="text" name="updated" placeholder="Aug 2026"></label>
+            <label>Base downloads <input type="number" name="baseDownloads" min="0"></label>
+            <label class="check"><input type="checkbox" name="recent"> Mark as fresh build</label>
+            <label class="span-2">One-line summary
+                <textarea name="blurb" rows="2" required></textarea>
+            </label>
+            <label class="span-2">Description
+                <textarea name="description" rows="4" required></textarea>
+            </label>
+            <label class="span-2">Features (one per line)
+                <textarea name="features" rows="4"></textarea>
+            </label>
+            <label class="span-2">Commands (one per line)
+                <textarea name="commands" rows="3"></textarea>
+            </label>
+            <label class="span-2">Requirements (one per line)
+                <textarea name="requirements" rows="3"></textarea>
+            </label>
+            <div class="span-2 form-actions">
+                <button class="btn btn-primary btn-sm" type="submit" id="plugin-form-submit">Save plugin</button>
+                <button class="btn btn-ghost btn-sm" type="button" data-close>Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Confirm dialog -->
+<div class="modal" id="confirm-modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel modal-sm">
+        <h2 id="confirm-title">Are you sure?</h2>
+        <p class="muted" id="confirm-text">This cannot be undone.</p>
+        <div class="form-actions">
+            <button class="btn btn-danger btn-sm" id="confirm-yes">Yes, do it</button>
+            <button class="btn btn-ghost btn-sm" data-close>Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="admin-toast"></div>
+
+<script src="js/plugins.js"></script>
+<script src="js/store.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
