@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<title>Upload Plugin · Crowz-Plugins</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 10v12L16 30 2 22V10Z' fill='%23f5f3ee' stroke='%232f7d4f' stroke-width='2'/%3E%3Ctext x='16' y='22' font-size='14' font-weight='700' text-anchor='middle' fill='%232f7d4f' font-family='Arial'%3EC%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<canvas id="rain-canvas" aria-hidden="true"></canvas>
+
+<header class="site-header">
+    <a class="brand" href="index.html" aria-label="Crowz-Plugins home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M16 2 30 10v12L16 30 2 22V10Z" fill="none" stroke="currentColor" stroke-width="2.2"/>
+            <path d="M11 21V11h2.4l4.6 6.4V11H20v10h-2.4L13 14.6V21Z" fill="currentColor"/>
+        </svg>
+        <span class="brand-name">Crowz<span>-</span>Plugins</span>
+    </a>
+    <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="index.html#plugins">Plugins</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="https://discord.gg/NG2hyARph" target="_blank" rel="noopener">Discord</a>
+    </nav>
+</header>
+
+<main class="upload-page">
+
+    <!-- Password gate -->
+    <section class="upload-gate" id="upload-gate">
+        <div class="gate-card">
+            <svg class="gate-icon" viewBox="0 0 32 32" aria-hidden="true">
+                <path d="M16 2 30 10v12L16 30 2 22V10Z" fill="none" stroke="currentColor" stroke-width="2.2"/>
+                <path d="M11 21V11h2.4l4.6 6.4V11H20v10h-2.4L13 14.6V21Z" fill="currentColor"/>
+            </svg>
+            <h1>Upload a plugin</h1>
+            <p class="gate-sub">Enter the upload key to add a new plugin to the catalog.</p>
+            <form id="gate-form">
+                <input type="password" id="gate-password" placeholder="Upload key" autocomplete="off" required>
+                <p class="form-error" id="gate-error" hidden>Wrong key. Try again.</p>
+                <button class="btn btn-primary" type="submit">Unlock</button>
+            </form>
+            <a class="gate-back" href="index.html">&larr; Back to the site</a>
+        </div>
+    </section>
+
+    <!-- Upload form -->
+    <section class="upload-form-wrap" id="upload-form-wrap" hidden>
+        <h1>Upload a plugin</h1>
+        <p class="upload-sub">Drag a <code>.jar</code> file into the box below, or click to browse. Then fill in the details.</p>
+
+        <!-- Drop zone -->
+        <div class="drop-zone" id="drop-zone" tabindex="0" role="button" aria-label="Upload jar file">
+            <svg class="drop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <p class="drop-label">Drop your <strong>.jar</strong> file here</p>
+            <p class="drop-hint">or click to browse</p>
+            <input type="file" id="file-input" accept=".jar" hidden>
+        </div>
+
+        <!-- File info -->
+        <div class="file-info" id="file-info" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span class="file-name" id="file-name"></span>
+            <span class="file-size" id="file-size"></span>
+            <button class="file-remove" id="file-remove" type="button" aria-label="Remove file">&times;</button>
+        </div>
+
+        <!-- Metadata form -->
+        <form id="upload-form" hidden>
+            <div class="form-grid">
+                <label>Plugin name
+                    <input type="text" name="name" required placeholder="MyPlugin">
+                </label>
+                <label>Category
+                    <select name="category" required>
+                        <option value="pvp">PvP</option>
+                        <option value="voice">Voice</option>
+                        <option value="security">Security</option>
+                        <option value="economy">Economy</option>
+                        <option value="utility" selected>Utility</option>
+                        <option value="core">Core</option>
+                    </select>
+                </label>
+                <label>Tags <span class="muted">(comma-separated)</span>
+                    <input type="text" name="tag" placeholder="antigrief, worldguard, flags">
+                </label>
+                <label>Version
+                    <input type="text" name="version" placeholder="1.0.0">
+                </label>
+                <label>Server target
+                    <input type="text" name="paper" placeholder="Paper 1.21+">
+                </label>
+                <label>Monogram <span class="muted">(1-4 chars)</span>
+                    <input type="text" name="monogram" maxlength="4" placeholder="MP">
+                </label>
+                <label class="check"><input type="checkbox" name="recent"> Mark as new build</label>
+                <label class="span-2">One-line summary
+                    <textarea name="blurb" rows="2" required placeholder="A short description of what this plugin does."></textarea>
+                </label>
+                <label class="span-2">Full description
+                    <textarea name="description" rows="4" required placeholder="Describe your plugin in detail."></textarea>
+                </label>
+                <label class="span-2">Features <span class="muted">(one per line)</span>
+                    <textarea name="features" rows="4" placeholder="Feature 1&#10;Feature 2&#10;Feature 3"></textarea>
+                </label>
+                <label class="span-2">Commands <span class="muted">(one per line)</span>
+                    <textarea name="commands" rows="3" placeholder="/myplugin reload&#10;/myplugin info"></textarea>
+                </label>
+                <label class="span-2">Requirements <span class="muted">(one per line)</span>
+                    <textarea name="requirements" rows="3" placeholder="Java 21&#10;Paper 1.21+"></textarea>
+                </label>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit" id="upload-submit">Upload plugin</button>
+                <button class="btn btn-ghost" type="button" id="upload-cancel">Cancel</button>
+            </div>
+        </form>
+
+        <!-- Success -->
+        <div class="upload-success" id="upload-success" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <h2>Plugin uploaded!</h2>
+            <p id="success-name"></p>
+            <div class="success-actions">
+                <a href="index.html#plugins" class="btn btn-primary">View on site</a>
+                <button class="btn btn-ghost" id="upload-another">Upload another</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="js/plugins.js"></script>
+<script src="js/store.js"></script>
+<script>
+(function () {
+    const store = window.CrowzStore;
+    if (!store) return;
+
+    const UPLOAD_KEY = 'crowz_upload_key';
+    const GATE_PASSWORD = 'CrowzOnly';
+    const MAX_BASE64 = 4 * 1024 * 1024;
+
+    const gate = document.getElementById('upload-gate');
+    const formWrap = document.getElementById('upload-form-wrap');
+    const gateForm = document.getElementById('gate-form');
+    const gatePass = document.getElementById('gate-password');
+    const gateError = document.getElementById('gate-error');
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const fileInfo = document.getElementById('file-info');
+    const fileName = document.getElementById('file-name');
+    const fileSize = document.getElementById('file-size');
+    const fileRemove = document.getElementById('file-remove');
+    const form = document.getElementById('upload-form');
+    const success = document.getElementById('upload-success');
+    const successName = document.getElementById('success-name');
+
+    let jarFile = null;
+    let jarDataUrl = null;
+
+    function isUnlocked() {
+        try { return sessionStorage.getItem(UPLOAD_KEY) === '1'; } catch { return false; }
+    }
+
+    function showForm() {
+        gate.hidden = true;
+        formWrap.hidden = false;
+    }
+
+    if (isUnlocked()) showForm();
+
+    gateForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (gatePass.value === GATE_PASSWORD) {
+            try { sessionStorage.setItem(UPLOAD_KEY, '1'); } catch {}
+            showForm();
+        } else {
+            gateError.hidden = false;
+            gatePass.value = '';
+            gatePass.focus();
+        }
+    });
+
+    function fmtSize(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+
+    function handleFile(file) {
+        if (!file || !file.name.endsWith('.jar')) {
+            dropZone.classList.add('drop-error');
+            setTimeout(() => dropZone.classList.remove('drop-error'), 1200);
+            return;
+        }
+        jarFile = file;
+        fileName.textContent = file.name;
+        fileSize.textContent = fmtSize(file.size);
+        fileInfo.hidden = false;
+        dropZone.hidden = true;
+
+        const nameInput = form.elements.name;
+        if (!nameInput.value) {
+            const slug = file.name.replace(/\.jar$/i, '').replace(/[-_]/g, ' ').replace(/\s+\S+$/g, '');
+            nameInput.value = slug || file.name.replace(/\.jar$/i, '');
+        }
+        if (!form.elements.version.value) {
+            const vMatch = file.name.match(/[-_v]((?:\d+\.){1,2}\d+)/i);
+            if (vMatch) form.elements.version.value = vMatch[1];
+        }
+        if (!form.elements.paper.value) form.elements.paper.value = 'Paper 1.21+';
+
+        const reader = new FileReader();
+        reader.onload = () => { jarDataUrl = reader.result; };
+        reader.readAsDataURL(file);
+
+        form.hidden = false;
+        form.elements.name.focus();
+    }
+
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); } });
+
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('dragover'); });
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+    });
+
+    fileInput.addEventListener('change', () => { if (fileInput.files.length) handleFile(fileInput.files[0]); });
+
+    fileRemove.addEventListener('click', () => {
+        jarFile = null;
+        jarDataUrl = null;
+        fileInfo.hidden = true;
+        dropZone.hidden = false;
+        form.hidden = true;
+        fileInput.value = '';
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!jarDataUrl) { alert('Please select a .jar file first.'); return; }
+        if (jarDataUrl.length > MAX_BASE64 * 1.4) {
+            if (!confirm('This jar is quite large and may exceed localStorage limits. Upload anyway?')) return;
+        }
+
+        const fd = form.elements;
+        const name = fd.name.value.trim();
+        const category = fd.category.value;
+        const tag = fd.tag.value.trim();
+        const version = fd.version.value.trim() || '1.0.0';
+        const paper = fd.paper.value.trim() || 'Paper 1.21+';
+        const monogram = fd.monogram.value.trim() || name.slice(0, 2).toUpperCase();
+        const blurb = fd.blurb.value.trim();
+        const description = fd.description.value.trim();
+        const features = fd.features.value.split('\n').map(s => s.trim()).filter(Boolean);
+        const commands = fd.commands.value.split('\n').map(s => s.trim()).filter(Boolean);
+        const requirements = fd.requirements.value.split('\n').map(s => s.trim()).filter(Boolean);
+        const recent = fd.recent.checked;
+
+        const id = store.slugify(name);
+        const catalog = store.getCatalog();
+        if (catalog.some(p => p.id === id)) {
+            alert('A plugin with that name already exists.');
+            return;
+        }
+
+        const plugin = {
+            id, name, file: jarFile.name, category, tag, version, paper, monogram,
+            blurb, description, features, commands, requirements, recent,
+            size: fmtSize(jarFile.size),
+            updated: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+            baseDownloads: 0,
+            dataUrl: jarDataUrl
+        };
+
+        catalog.push(plugin);
+        store.saveCatalog(catalog);
+
+        successName.textContent = name + ' has been added to the catalog.';
+        form.hidden = true;
+        fileInfo.hidden = true;
+        success.hidden = false;
+    });
+
+    document.getElementById('upload-cancel').addEventListener('click', () => {
+        form.hidden = true;
+        fileInfo.hidden = true;
+        dropZone.hidden = false;
+        jarFile = null;
+        jarDataUrl = null;
+        fileInput.value = '';
+    });
+
+    document.getElementById('upload-another').addEventListener('click', () => {
+        form.reset();
+        form.hidden = true;
+        fileInfo.hidden = true;
+        dropZone.hidden = false;
+        success.hidden = true;
+        jarFile = null;
+        jarDataUrl = null;
+        fileInput.value = '';
+    });
+
+    /* Rain */
+    const canvas = document.getElementById('rain-canvas');
+    if (canvas && typeof canvas.getContext === 'function') {
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+            let W = 0, H = 0;
+            const COUNT = 300;
+            const drops = new Array(COUNT);
+            function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+            function spawn(i) {
+                const bright = Math.random() < 0.15;
+                drops[i] = { x: Math.random() * W, y: Math.random() * -H * 1.2, len: bright ? 28 + Math.random() * 35 : 12 + Math.random() * 22, speed: bright ? 8 + Math.random() * 7 : 4 + Math.random() * 6, alpha: bright ? 0.25 + Math.random() * 0.3 : 0.06 + Math.random() * 0.14, bright };
+            }
+            function step() {
+                ctx.clearRect(0, 0, W, H); ctx.lineWidth = 1;
+                for (let i = 0; i < COUNT; i++) {
+                    const d = drops[i];
+                    ctx.strokeStyle = d.bright ? 'rgba(56,189,248,1)' : 'rgba(160,210,255,1)';
+                    ctx.globalAlpha = d.alpha;
+                    ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x + 0.5, d.y + d.len); ctx.stroke();
+                    d.y += d.speed;
+                    if (d.y > H) spawn(i);
+                }
+                ctx.globalAlpha = 1;
+                requestAnimationFrame(step);
+            }
+            resize();
+            for (let i = 0; i < COUNT; i++) spawn(i);
+            window.addEventListener('resize', resize);
+            step();
+        }
+    }
+})();
+</script>
+</body>
+</html>

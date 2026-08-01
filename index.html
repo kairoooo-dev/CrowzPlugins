@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<title id="site-title">Crowz-Plugins · Free Minecraft Plugins</title>
+<meta name="description" content="Free Minecraft server plugins, hand-built by one developer. No license keys, no paywalls — just jars that work. PvP, anticheat, voice chat and more.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 10v12L16 30 2 22V10Z' fill='%23f5f3ee' stroke='%232f7d4f' stroke-width='2'/%3E%3Ctext x='16' y='22' font-size='14' font-weight='700' text-anchor='middle' fill='%232f7d4f' font-family='Arial'%3EC%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<canvas id="rain-canvas" aria-hidden="true"></canvas>
+
+<header class="site-header" id="site-header">
+    <a class="brand" href="#top" aria-label="Crowz-Plugins home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M16 2 30 10v12L16 30 2 22V10Z" fill="none" stroke="currentColor" stroke-width="2.2"/>
+            <path d="M11 21V11h2.4l4.6 6.4V11H20v10h-2.4L13 14.6V21Z" fill="currentColor"/>
+        </svg>
+        <span class="brand-name" id="brand-name">Crowz<span>-</span>Plugins</span>
+    </a>
+    <nav class="nav" id="nav-links" aria-label="Main navigation">
+        <a href="#plugins">Plugins</a>
+        <a href="#install">Installing</a>
+        <a href="#faq">FAQ</a>
+        <a href="#support">Contact</a>
+        <a href="upload.html">Upload</a>
+        <a href="../Crowz-Hub/index.html">Hub</a>
+        <a href="https://discord.gg/NG2hyARph" target="_blank" rel="noopener">Discord</a>
+    </nav>
+    <div class="online-badge" id="online-badge">
+        <span class="online-dot"></span>
+        <span id="online-count">0</span> online
+    </div>
+    <div class="account-area" id="account-area"></div>
+    <a href="#plugins" class="btn btn-primary btn-sm nav-cta">Browse plugins</a>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+    </button>
+</header>
+
+<main id="top">
+
+    <section class="hero">
+        <div class="hero-copy">
+            <p class="eyebrow">Free Minecraft plugins · no license keys</p>
+            <h1>Plugins I built for my own servers — <em>yours to use for free.</em></h1>
+            <p class="hero-sub" id="hero-sub">I make these plugins because my own servers needed them. No paywalls, no license keys, no "premium" versions. Download the jar, drop it in your plugins folder, done. If something breaks, email me and I'll actually fix it.</p>
+            <div class="hero-actions">
+                <a href="#plugins" class="btn btn-primary">Browse the plugins</a>
+                <a href="https://discord.gg/NG2hyARph" target="_blank" rel="noopener" class="btn btn-ghost">Join the Discord</a>
+                <a href="mailto:Crowzwdev@gmail.com" class="btn btn-ghost">Email me: Crowzwdev@gmail.com</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <strong id="stat-plugins">0</strong>
+                    <span>plugins</span>
+                </div>
+                <div class="stat">
+                    <strong id="stat-size">0</strong>
+                    <span>MB of builds</span>
+                </div>
+                <div class="stat">
+                    <strong>0</strong>
+                    <span>license keys needed</span>
+                </div>
+            </div>
+        </div>
+
+        <aside class="note-card" aria-label="A note from the developer">
+            <p class="note-label">A note from me</p>
+            <p class="note-text">Everything here is a real jar you can download right now — I've included each file's SHA-256 checksum on its page so you can verify nothing's been messed with.</p>
+            <p class="note-text">If a plugin saves your server, a thanks is enough. If it breaks your server, tell me — that's the deal.</p>
+            <p class="note-sign">— CrowzDev</p>
+        </aside>
+    </section>
+
+    <section class="featured" id="featured">
+        <div class="featured-info">
+            <p class="eyebrow">My personal favourite</p>
+            <h2>PVPCoreX</h2>
+            <p class="featured-desc">The plugin I started this whole thing with. Combat tagging, ranked duels, bounties, death chests and KOTH — one jar, one config folder. It's what my own server runs on right now.</p>
+            <ul class="feature-list">
+                <li>Combat tagging &amp; killstreak effects</li>
+                <li>Ranked duels with ELO and spectator mode</li>
+                <li>Bounties, death chests and supply drops</li>
+                <li>KOTH events with a rotating schedule</li>
+            </ul>
+            <div class="featured-actions">
+                <button class="btn btn-primary" data-download="pvpcorex">Download PVPCoreX</button>
+                <button class="btn btn-ghost" data-open="pvpcorex">Full details</button>
+            </div>
+        </div>
+        <div class="featured-panel">
+            <div class="fp-row"><span>Version</span><strong>1.0.0</strong></div>
+            <div class="fp-row"><span>Size</span><strong>31.2 MB</strong></div>
+            <div class="fp-row"><span>Server</span><strong>Paper 1.21+</strong></div>
+            <div class="fp-row"><span>Folia</span><strong>Compatible</strong></div>
+            <div class="fp-row"><span>Last build</span><strong>Aug 2026</strong></div>
+            <div class="fp-row fp-total"><span>Downloads</span><strong id="featured-downloads">12,480</strong></div>
+        </div>
+    </section>
+
+    <section class="plugins" id="plugins">
+        <div class="plugins-layout">
+            <!-- Category sidebar -->
+            <aside class="cat-sidebar" id="cat-sidebar">
+                <h3 class="cat-heading">Category <span class="cat-toggle" id="cat-toggle">▲</span></h3>
+                <div class="cat-list" id="cat-list">
+                    <button class="cat-btn active" data-cat="all"><span class="cat-icon">📦</span> All plugins</button>
+                    <button class="cat-btn" data-cat="pvp"><span class="cat-icon">⚔️</span> PvP</button>
+                    <button class="cat-btn" data-cat="voice"><span class="cat-icon">🎙️</span> Voice chat</button>
+                    <button class="cat-btn" data-cat="security"><span class="cat-icon">🔐</span> Security</button>
+                    <button class="cat-btn" data-cat="economy"><span class="cat-icon">💰</span> Economy</button>
+                    <button class="cat-btn" data-cat="utility"><span class="cat-icon">🔧</span> Utility</button>
+                    <button class="cat-btn" data-cat="core"><span class="cat-icon">⚙️</span> Core</button>
+                </div>
+            </aside>
+
+            <!-- Main content -->
+            <div class="plugins-main">
+                <div class="plugins-head">
+                    <div>
+                        <h2>All plugins</h2>
+                        <p class="section-note" id="plugin-count">18 plugins</p>
+                    </div>
+                    <div class="toolbar">
+                        <div class="search-wrap">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                            <input type="text" id="search" placeholder="Search plugins..." autocomplete="off" aria-label="Search plugins">
+                        </div>
+                        <select id="sort-filter" aria-label="Sort by">
+                            <option value="name">Sort: Name</option>
+                            <option value="downloads">Sort: Downloads</option>
+                            <option value="updated">Sort: Updated</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="plugins-grid" id="plugins-grid"></div>
+                <div class="empty-state" id="empty-state" hidden>
+                    <p>Nothing matches that search.</p>
+                    <p class="empty-hint">Try a plugin name, a category, or something like "lag" or "voice".</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="install" id="install">
+        <p class="eyebrow">How it works</p>
+        <h2>Installing a plugin takes 2 minutes</h2>
+        <ol class="install-list">
+            <li><strong>Download the jar</strong> — every plugin has a Download button, no keys or accounts needed.</li>
+            <li><strong>Stop your server</strong>, then drop the jar into the <code>plugins/</code> folder.</li>
+            <li><strong>Start the server once</strong> — it generates the config files automatically.</li>
+            <li><strong>Edit the config</strong>, then run the plugin's reload command (it's listed on each plugin page).</li>
+        </ol>
+        <p class="install-note">Stuck at any step? Email me: <a href="mailto:Crowzwdev@gmail.com">Crowzwdev@gmail.com</a>.</p>
+    </section>
+
+    <section class="faq" id="faq">
+        <p class="eyebrow">Before you ask</p>
+        <h2>Common questions</h2>
+        <div class="faq-list">
+            <div class="faq-item">
+                <button class="faq-q" aria-expanded="false">Are these plugins really free? What's the catch?</button>
+                <div class="faq-a"><p>Really free, no catch. I built these for my own servers and I publish them because other server owners kept asking. No license keys, no premium tier, no "donate to unlock" — if you want a custom plugin built for your server, that's a paid commission, but everything here is free.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q" aria-expanded="false">Do I need a license key to download?</button>
+                <div class="faq-a"><p>Nope. There are no license keys anymore. Every plugin downloads straight away. If anything ever asks you for a key, that's not this site.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q" aria-expanded="false">How do I know the download is safe?</button>
+                <div class="faq-a"><p>Each plugin page shows the SHA-256 checksum of the exact jar you're downloading. If you know how, you can verify the file matches — it's the same checksum I got when I built the jar. Other than that, I'm one person with a reputation to keep, so be sensible and report anything weird to me directly.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q" aria-expanded="false">Which server software and Java version do I need?</button>
+                <div class="faq-a"><p>Everything here targets Paper 1.21+ with Java 21, and the main plugins run on Folia. Spigot may work for some plugins, but I test against Paper and that's what I recommend.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q" aria-expanded="false">Do the plugins work together?</button>
+                <div class="faq-a"><p>They're designed to. PVPCoreX and CrowzPVP share config conventions, StaffModerationPlus hooks into CrowzCAnticheat's alerts, and UltimateVoice pairs with anything. If two plugins ever fight, tell me — that's a bug I want to know about.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q" aria-expanded="false">Can you build a plugin for my server?</button>
+                <div class="faq-a"><p>Usually, yes. Commissions are how this stays sustainable — email me at <a href="mailto:Crowzwdev@gmail.com">Crowzwdev@gmail.com</a> describing what you need and I'll give you an honest quote and timeline.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="support" id="support">
+        <div class="support-inner">
+            <div>
+                <p class="eyebrow">Support</p>
+                <h2>Something broken? Email me.</h2>
+                <p class="support-sub">I answer my own mail — no ticket bots, no support team, no "check our wiki". If a plugin's broken I'll fix it and put up a new build.</p>
+            </div>
+            <div class="support-actions">
+                <a class="btn btn-primary" href="https://discord.gg/NG2hyARph" target="_blank" rel="noopener">Join the Discord</a>
+                <a class="btn btn-ghost" href="mailto:Crowzwdev@gmail.com" id="support-mail">Crowzwdev@gmail.com</a>
+                <p class="support-note">I usually reply within a day or two.</p>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="site-footer">
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <a class="brand" href="#top">
+                <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+                    <path d="M16 2 30 10v12L16 30 2 22V10Z" fill="none" stroke="currentColor" stroke-width="2.2"/>
+                    <path d="M11 21V11h2.4l4.6 6.4V11H20v10h-2.4L13 14.6V21Z" fill="currentColor"/>
+                </svg>
+                <span class="brand-name">Crowz<span>-</span>Plugins</span>
+            </a>
+            <p>Free Minecraft server plugins, made by one person. No license keys, no paywalls — just jars.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Plugins</h4>
+            <a href="#featured">PVPCoreX</a>
+            <a href="#plugins">All plugins</a>
+            <a href="#plugins" data-cat="voice">UltimateVoice</a>
+        </div>
+        <div class="footer-col">
+            <h4>Resources</h4>
+            <a href="#install">Install guide</a>
+            <a href="#faq">FAQ</a>
+            <a href="upload.html">Upload plugin</a>
+            <a href="#support">Contact</a>
+        </div>
+        <div class="footer-col">
+            <h4>Community</h4>
+            <a href="https://discord.gg/NG2hyARph" target="_blank" rel="noopener">Discord server</a>
+            <a href="mailto:Crowzwdev@gmail.com" id="footer-mail">Crowzwdev@gmail.com</a>
+            <a href="#support">Support</a>
+        </div>
+    </div>
+    <div class="footer-legal">
+        <p>© 2026 CrowzDev · Built by hand, maintained by hand.</p>
+        <p>Not affiliated with Mojang Studios or Microsoft. Minecraft is a trademark of Mojang AB.</p>
+    </div>
+</footer>
+
+<!-- Plugin detail modal -->
+<div class="modal" id="plugin-modal" hidden aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-page" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+        <div id="modal-body"></div>
+    </div>
+</div>
+
+<!-- Account modal -->
+<div class="modal" id="auth-modal" hidden aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-panel modal-sm" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+        <button class="modal-close" id="auth-close" aria-label="Close">×</button>
+
+        <div id="auth-guest">
+            <div class="auth-tabs" role="tablist">
+                <button class="auth-tab active" id="tab-login" type="button">Log in</button>
+                <button class="auth-tab" id="tab-register" type="button">Register</button>
+            </div>
+
+            <form id="login-form" class="auth-form">
+                <h3 id="auth-title">Welcome back</h3>
+                <p class="modal-desc">Log in or create a free account to download plugins.</p>
+                <label>Username or email
+                    <input type="text" id="login-email" autocomplete="username" required>
+                </label>
+                <label>Password
+                    <input type="password" id="login-pass" autocomplete="current-password" required>
+                </label>
+                <p class="form-error" id="login-error" hidden></p>
+                <button class="btn btn-primary" type="submit">Log in</button>
+            </form>
+
+            <form id="register-form" class="auth-form" hidden>
+                <h3>Create an account</h3>
+                <p class="modal-desc">Free account to download plugins and track your downloads.</p>
+                <label>Username
+                    <input type="text" id="reg-username" autocomplete="username" required>
+                </label>
+                <label>Email
+                    <input type="email" id="reg-email" autocomplete="email" required>
+                </label>
+                <label>Password
+                    <input type="password" id="reg-pass" autocomplete="new-password" required>
+                </label>
+                <label>Confirm password
+                    <input type="password" id="reg-pass2" autocomplete="new-password" required>
+                </label>
+                <p class="form-error" id="reg-error" hidden></p>
+                <button class="btn btn-primary" type="submit">Create account</button>
+            </form>
+        </div>
+
+        <div id="auth-session" hidden>
+            <h3>My account</h3>
+            <p class="modal-desc" id="session-identity"></p>
+            <button class="btn btn-ghost" id="auth-logout">Log out</button>
+        </div>
+    </div>
+</div>
+
+<!-- AI Assistant -->
+<div class="assistant-fab" id="assistant-fab" title="Ask the assistant">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c-4.4 0-8 3.1-8 7 0 1.9.8 3.6 2.2 4.9L5.5 20l3.9-2c.8.2 1.7.3 2.6.3 4.4 0 8-3.1 8-7s-3.6-7-8-7Z"/></svg>
+</div>
+
+<!-- Community Chat FAB -->
+<div class="community-fab" id="community-fab" title="Talk to the community">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <span class="community-fab-badge" id="community-badge">0</span>
+</div>
+
+<div class="assistant-panel" id="assistant-panel" role="dialog" aria-label="Crowz Assistant">
+    <div class="assistant-header">
+        <div class="assistant-avatar">C</div>
+        <div class="assistant-head-text">
+            <strong>Crowz Assistant</strong>
+            <span class="assistant-status"><span class="dot"></span> online</span>
+        </div>
+        <button class="assistant-close" id="assistant-close" aria-label="Close assistant">×</button>
+    </div>
+    <div class="assistant-chat" id="assistant-chat"></div>
+    <div class="assistant-suggestions" id="assistant-suggestions"></div>
+    <div class="assistant-input-row">
+        <input type="text" id="assistant-input" placeholder="Ask about plugins, installs, servers..." autocomplete="off" aria-label="Message the assistant">
+        <button id="assistant-send" aria-label="Send">➤</button>
+    </div>
+    <div class="assistant-footer">Runs locally in your browser — nothing you type leaves this page.</div>
+</div>
+
+<!-- Community Chat Panel -->
+<div class="community-panel" id="community-panel" role="dialog" aria-label="Community chat">
+    <div class="assistant-header">
+        <div class="assistant-avatar" style="background:linear-gradient(135deg,var(--green),#059669)">👥</div>
+        <div class="assistant-head-text">
+            <strong>Community Chat</strong>
+            <span class="assistant-status"><span class="dot" style="background:var(--green)"></span> <span id="community-online">0</span> online</span>
+        </div>
+        <button class="assistant-close" id="community-close" aria-label="Close chat">×</button>
+    </div>
+    <div class="assistant-chat" id="community-chat">
+        <div class="chat-system">Welcome to community chat! Talk to other server owners, share tips, and hang out.</div>
+    </div>
+    <div class="community-typing" id="community-typing" hidden>
+        <span class="typing-dots"><span></span><span></span><span></span></span>
+        <span id="community-typing-who"></span> is typing...
+    </div>
+    <form class="assistant-input-row" id="community-form">
+        <input type="text" id="community-input" placeholder="Say something..." autocomplete="off" maxlength="500" aria-label="Community message">
+        <button type="submit" class="btn btn-primary btn-sm" id="community-send">➤</button>
+    </form>
+    <div class="assistant-footer">Powered by BroadcastChannel — works across tabs in your browser.</div>
+</div>
+
+<script src="js/plugins.js"></script>
+<script src="js/store.js"></script>
+<script src="js/app.js"></script>
+<script src="js/assistant.js"></script>
+</body>
+</html>
