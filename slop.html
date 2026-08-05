@@ -603,6 +603,19 @@ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
   if(logo)logo.innerHTML=gl.G_LOGO;
 
   function initials(u){return ((u.name||u.email||'?').charAt(0)||'?').toUpperCase();}
+  function setAvatar(el, u){
+    el.innerHTML='';
+    if(u.picture){
+      var im=document.createElement('img');
+      im.src=u.picture;
+      im.alt='';
+      el.appendChild(im);
+      el.style.background='transparent';
+    }else{
+      el.textContent=initials(u);
+      el.style.background='#1a73e8';
+    }
+  }
   function render(){
     var u=gl.getUser();
     var av=chip.querySelector('.google-chip-avatar');
@@ -612,9 +625,8 @@ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
         av.className='google-chip-avatar';
         chip.insertBefore(av,label);
       }
-      if(u.picture){av.innerHTML='<img src="'+u.picture+'" alt="">';av.style.background='transparent';}
-      else{av.innerHTML='';av.textContent=initials(u);av.style.background='#1a73e8';}
-      label.textContent=(u.name||u.email.split('@')[0]);
+      setAvatar(av,u);
+      label.textContent=(u.name||(u.email||'').split('@')[0]);
       chip.setAttribute('aria-haspopup','menu');
     }else{
       if(av)av.parentNode.removeChild(av);
@@ -625,18 +637,20 @@ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
   function renderMenu(){
     var u=gl.getUser();if(!u)return;
     var av=document.getElementById('google-menu-avatar');
-    if(u.picture){av.innerHTML='<img src="'+u.picture+'" alt="">';av.style.background='transparent';}
-    else{av.innerHTML='';av.textContent=initials(u);av.style.background='#1a73e8';}
+    setAvatar(av,u);
     document.getElementById('google-menu-name').textContent=u.name||'';
     document.getElementById('google-menu-mail').textContent=u.email||'';
   }
+  var busy=false;
   chip.addEventListener('click',function(e){
     e.stopPropagation();
+    if(busy)return;
     if(gl.getUser()){
       renderMenu();
       menu.hidden=!menu.hidden;
     }else{
-      gl.signIn().then(render);
+      busy=true;
+      gl.signIn().then(function(){busy=false;render();},function(){busy=false;});
     }
   });
   document.addEventListener('click',function(){if(menu)menu.hidden=true;});
