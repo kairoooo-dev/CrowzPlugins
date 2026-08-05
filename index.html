@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#000000">
 <title id="site-title">Crowz-Plugins · Free Minecraft Plugins</title>
-<meta name="description" content="Free Minecraft server plugins, hand-built by one developer. No license keys, no paywalls — just jars that work. PvP, anticheat, voice chat and more.">
+<meta name="description" content="Free Minecraft server plugins, hand-built by one developer. No paywalls — just jars that work. PvP, anticheat, voice chat and more. StaffModerationPlus requires a free license key.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 10v12L16 30 2 22V10Z' fill='%23f5f3ee' stroke='%232f7d4f' stroke-width='2'/%3E%3Ctext x='16' y='22' font-size='14' font-weight='700' text-anchor='middle' fill='%232f7d4f' font-family='Arial'%3EC%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/loader.css">
@@ -69,8 +69,8 @@
             <p class="hero-sub" id="hero-sub">I make these plugins because my own servers needed them. No paywalls, no license keys, no "premium" versions. Download the jar, drop it in your plugins folder, done. If something breaks, email me and I'll actually fix it.</p>
             <div class="hero-actions">
                 <a href="#plugins" class="btn btn-primary">Browse the plugins</a>
+                <a href="https://licensegenerator-ten.vercel.app/" target="_blank" rel="noopener" class="btn btn-ghost">Get a License Key</a>
                 <a href="https://discord.gg/NG2hyARph" target="_blank" rel="noopener" class="btn btn-ghost">Join the Discord</a>
-                <a href="mailto:Crowzwdev@gmail.com" class="btn btn-ghost">Email me: Crowzwdev@gmail.com</a>
             </div>
             <div class="hero-stats">
                 <div class="stat">
@@ -188,7 +188,7 @@
             </div>
             <div class="faq-item">
                 <button class="faq-q" aria-expanded="false">Do I need a license key to download?</button>
-                <div class="faq-a"><p>Nope. There are no license keys anymore. Every plugin downloads straight away. If anything ever asks you for a key, that's not this site.</p></div>
+                <div class="faq-a"><p>Most plugins download straight away with no key needed. StaffModerationPlus requires a free license key — get one at <a href="https://licensegenerator-ten.vercel.app/" target="_blank" rel="noopener">licensegenerator-ten.vercel.app</a>. It takes 2 seconds.</p></div>
             </div>
             <div class="faq-item">
                 <button class="faq-q" aria-expanded="false">How do I know the download is safe?</button>
@@ -288,7 +288,7 @@
 
             <div class="google-auth" id="google-auth">
                 <button type="button" class="google-btn" id="google-login-btn">
-                    <span class="google-logo" aria-hidden="true"></span>
+                    <span class="google-logo"></span>
                     <span class="google-label">Continue with Google</span>
                 </button>
                 <div class="auth-divider"><span>or</span></div>
@@ -331,7 +331,7 @@
             <h3>My account</h3>
             <p class="modal-desc" id="session-identity"></p>
             <p class="google-badge-row" id="session-google-badge" hidden>
-                <span class="google-badge"><span class="google-logo" aria-hidden="true"></span> Signed in with Google</span>
+                <span class="google-badge"><span class="google-logo"></span> Signed in with Google</span>
             </p>
             <button class="btn btn-ghost" id="auth-logout">Log out</button>
         </div>
@@ -389,69 +389,6 @@
         <button type="submit" class="btn btn-primary btn-sm" id="community-send">➤</button>
     </form>
     <div class="assistant-footer">Powered by BroadcastChannel — works across tabs in your browser.</div>
-</div>
-
-<!-- License Center FAB -->
-<div class="license-fab" id="license-fab" title="License Center">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L3 7v6c0 5.25 3.75 10.05 9 11.25C17.25 23.05 21 18.25 21 13V7l-9-5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <span class="license-fab-badge" id="license-fab-badge">0</span>
-</div>
-
-<!-- License Center Panel -->
-<div class="license-panel" id="license-panel" role="dialog" aria-label="License Center">
-    <div class="license-header">
-        <div class="license-header-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2L3 7v6c0 5.25 3.75 10.05 9 11.25C17.25 23.05 21 18.25 21 13V7l-9-5Z"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="license-header-text">
-            <strong>License Center</strong>
-            <span class="license-header-sub">Generate free keys for any plugin</span>
-        </div>
-        <button class="license-close" id="license-close" aria-label="Close">&times;</button>
-    </div>
-    <div class="license-tabs">
-        <button class="license-tab active" data-ltab="my-keys">My Keys</button>
-        <button class="license-tab" data-ltab="get-key">Get a Key</button>
-    </div>
-    <div class="license-tab-body" id="license-tab-my-keys">
-        <div class="license-list-wrap" id="license-list-wrap">
-            <p class="license-empty">No licenses yet. Go to <strong>Get a Key</strong> to generate one.</p>
-        </div>
-    </div>
-    <div class="license-tab-body" id="license-tab-get-key" hidden>
-        <p class="license-picker-sub">Select a plugin to generate a free license key:</p>
-        <div class="license-picker-grid" id="license-picker-grid"></div>
-    </div>
-    <div class="license-key-reveal" id="license-key-reveal" hidden>
-        <div class="key-reveal-glow"></div>
-        <p class="key-reveal-label">Your license key</p>
-        <div class="key-reveal-code" id="key-reveal-code"></div>
-        <p class="key-reveal-plugin" id="key-reveal-plugin"></p>
-        <div class="key-reveal-actions">
-            <button class="btn btn-primary btn-sm" id="key-copy-btn">Copy key</button>
-            <button class="btn btn-ghost btn-sm" id="key-download-btn">Download plugin</button>
-        </div>
-    </div>
-    <div class="license-footer">Keys are free, stored in your account, and never expire.</div>
-</div>
-
-<!-- License Gate Modal (shown when downloading without a license) -->
-<div class="modal" id="license-gate-modal" hidden aria-hidden="true">
-    <div class="modal-backdrop" data-close></div>
-    <div class="modal-panel license-gate-panel" role="dialog" aria-modal="true">
-        <button class="modal-close" data-close aria-label="Close">&times;</button>
-        <div class="license-gate-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        </div>
-        <h2 class="license-gate-title">License required</h2>
-        <p class="license-gate-plugin" id="license-gate-plugin-name"></p>
-        <p class="license-gate-desc">This plugin requires a free license key. Generate one now — it takes 2 seconds.</p>
-        <button class="btn btn-primary license-gate-generate" id="license-gate-generate">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="18" height="18"><path d="M12 2L3 7v6c0 5.25 3.75 10.05 9 11.25C17.25 23.05 21 18.25 21 13V7l-9-5Z"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Generate free license
-        </button>
-        <p class="license-gate-note">You only need to do this once per plugin.</p>
-    </div>
 </div>
 
 <script src="js/plugins.js"></script>
