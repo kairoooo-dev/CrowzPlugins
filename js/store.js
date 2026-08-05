@@ -212,6 +212,35 @@ window.CrowzStore = (() => {
         write(SESSION_KEY, acc.email);
         return { account: acc };
     }
+    function googleSignIn(profile) {
+        const p = profile || {};
+        const em = String(p.email || '').trim().toLowerCase();
+        const name = String(p.name || '').trim();
+        if (!em || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) throw new Error('Google account has no valid email.');
+        const accs = getAccounts();
+        let acc = accs.find(a => a.email === em);
+        if (acc) {
+            if (acc.banned) throw new Error('This account has been banned.');
+            acc.provider = 'google';
+            acc.picture = p.picture || acc.picture;
+            acc.googleSub = p.sub || acc.googleSub;
+            if (!acc.username && name) acc.username = name.toLowerCase().replace(/[^a-z0-9]+/g, '') || acc.username;
+            saveAccounts(accs);
+        } else {
+            const base = (name ? name.toLowerCase().replace(/[^a-z0-9]+/g, '') : '') || 'user';
+            let u = base, i = 1;
+            while (accs.some(a => a.username === u)) u = base + i++;
+            acc = {
+                username: u, email: em, pass: '',
+                provider: 'google', picture: p.picture || '', googleSub: p.sub || '',
+                created: Date.now(), banned: false, licenses: []
+            };
+            accs.push(acc);
+            saveAccounts(accs);
+        }
+        write(SESSION_KEY, em);
+        return acc;
+    }
     function logout() {
         remove(SESSION_KEY);
     }
@@ -296,7 +325,7 @@ window.CrowzStore = (() => {
         delta, downloadCount, totalDownloads, recordDownload, getLog, resetStats,
         getLicenses, saveLicenses, createLicense, revokeLicense, deleteLicense,
         validateLicense, hasLicenseFor, resetLicenses,
-        getAccounts, saveAccounts, registerAccount, loginAccount, logout, currentAccount,
+        getAccounts, saveAccounts, registerAccount, loginAccount, googleSignIn, logout, currentAccount,
         banAccount, unbanAccount, deleteAccount, resetPassword,
         addLicenseToAccount, ownsLicense, resetAccounts,
         exportData, importData, slugify, timeAgo

@@ -1,0 +1,82 @@
+/* ============================================================
+   Loading screen — shared across all Crowz-Plugins pages
+   Uses each page's CSS variables with dark fallbacks.
+   ============================================================ */
+.site-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: grid;
+    place-items: center;
+    background: var(--bg, #060708);
+    transition: opacity .45s ease, visibility .45s ease;
+}
+.site-loader.is-done {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+.loader-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 13px;
+    text-align: center;
+    padding: 0 24px;
+}
+.loader-mark {
+    width: 56px;
+    height: 56px;
+    color: var(--accent, #38bdf8);
+    animation: loader-pulse 1.7s ease-in-out infinite;
+    filter: drop-shadow(0 0 16px rgba(56, 189, 248, .4));
+}
+.loader-name {
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: .2px;
+    color: var(--ink, #e9eef5);
+}
+.loader-sub {
+    font-size: 12.5px;
+    color: var(--dim, #9aa7b8);
+    margin-top: -8px;
+    font-weight: 500;
+}
+.loader-bar {
+    width: 190px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--border, #1f242c);
+    overflow: hidden;
+    position: relative;
+    margin-top: 2px;
+}
+.loader-bar span {
+    display: block;
+    height: 100%;
+    width: 40%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--accent, #38bdf8), var(--violet, #a78bfa));
+    animation: loader-slide 1.05s ease-in-out infinite;
+}
+.loader-msg {
+    font-size: 11.5px;
+    color: var(--dim, #9aa7b8);
+    font-weight: 600;
+    letter-spacing: .06em;
+    min-height: 16px;
+    text-transform: uppercase;
+}
+@keyframes loader-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.09); opacity: .85; }
+}
+@keyframes loader-slide {
+    0% { transform: translateX(-110%); }
+    100% { transform: translateX(360%); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .loader-mark, .loader-bar span { animation: none; }
+    .loader-bar span { transform: translateX(0); width: 100%; }
+}

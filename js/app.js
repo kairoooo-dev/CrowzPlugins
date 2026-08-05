@@ -210,9 +210,16 @@
         accountArea.innerHTML = '';
         if (account) {
             const b = document.createElement('button');
-            b.className = 'btn btn-ghost btn-sm';
+            b.className = 'btn btn-ghost btn-sm account-chip';
             b.id = 'account-btn';
-            b.textContent = account.username;
+            if (account.picture) {
+                const img = document.createElement('img');
+                img.className = 'account-avatar';
+                img.src = account.picture;
+                img.alt = '';
+                b.appendChild(img);
+            }
+            b.appendChild(document.createTextNode(account.username));
             b.addEventListener('click', openAuthModal);
             accountArea.appendChild(b);
         } else {
@@ -248,6 +255,12 @@
         authGuest.hidden = true;
         authSession.hidden = false;
         document.getElementById('session-identity').textContent = account.username + ' · ' + account.email;
+        const gb = document.getElementById('session-google-badge');
+        if (gb) {
+            gb.hidden = account.provider !== 'google';
+            const logo = gb.querySelector('.google-logo');
+            if (logo && window.CrowzGoogle) logo.innerHTML = window.CrowzGoogle.G_LOGO;
+        }
     }
     function switchAuthTab(which) {
         document.getElementById('tab-login').classList.toggle('active', which === 'login');
@@ -436,6 +449,45 @@
             }
         }
     });
+
+    // ---------- Google sign-in ----------
+    const googleBtn = document.getElementById('google-login-btn');
+    if (googleBtn && window.CrowzGoogle) {
+        const gl = window.CrowzGoogle;
+        const logoEl = googleBtn.querySelector('.google-logo');
+        const labelEl = googleBtn.querySelector('.google-label');
+        if (logoEl) logoEl.innerHTML = gl.G_LOGO;
+        googleBtn.addEventListener('click', async () => {
+            if (googleBtn.disabled) return;
+            googleBtn.disabled = true;
+            if (labelEl) labelEl.textContent = 'Connecting…';
+            try {
+                const user = await gl.signIn();
+                if (!user) return;
+                account = store.googleSignIn(user);
+                closeAuthModal();
+                renderAccountArea();
+                toast('Signed in with Google — welcome, ' + account.username + '!');
+                updateLicenseBadge();
+                if (pendingDownload) {
+                    const pd = pendingDownload;
+                    pendingDownload = null;
+                    if (pd.requiresLicense && !store.ownsLicense(account, pd.id)) {
+                        pendingLicenseDownload = pd;
+                        openLicenseGate(pd);
+                    } else {
+                        doDownload(pd);
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+                toast('Google sign-in failed. Try again.');
+            } finally {
+                googleBtn.disabled = false;
+                if (labelEl) labelEl.textContent = 'Continue with Google';
+            }
+        });
+    }
 
     // ---------- FAQ accordion ----------
     document.querySelectorAll('.faq-item').forEach(item => {

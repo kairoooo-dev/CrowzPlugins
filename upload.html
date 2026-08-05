@@ -8,8 +8,23 @@
 <meta name="robots" content="noindex">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 10v12L16 30 2 22V10Z' fill='%23f5f3ee' stroke='%232f7d4f' stroke-width='2'/%3E%3Ctext x='16' y='22' font-size='14' font-weight='700' text-anchor='middle' fill='%232f7d4f' font-family='Arial'%3EC%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/loader.css">
 </head>
 <body>
+
+<!-- Loading screen -->
+<div class="site-loader" id="site-loader" inert>
+    <div class="loader-card">
+        <svg class="loader-mark" viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M16 2 30 10v12L16 30 2 22V10Z" fill="none" stroke="currentColor" stroke-width="2.2"/>
+            <path d="M11 21V11h2.4l4.6 6.4V11H20v10h-2.4L13 14.6V21Z" fill="currentColor"/>
+        </svg>
+        <div class="loader-name">Crowz-Plugins</div>
+        <div class="loader-sub">Upload a plugin</div>
+        <div class="loader-bar"><span></span></div>
+        <div class="loader-msg" data-loader-msg>Loading…</div>
+    </div>
+</div>
 
 <canvas id="rain-canvas" aria-hidden="true"></canvas>
 
@@ -349,5 +364,6 @@
     }
 })();
 </script>
+<script src="js/loader.js"></script>
 </body>
 </html>
