@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#060708">
-<title>Slop Catalog · Crowz-Plugins</title>
+<title>Slop Catalog Â· Crowz-Plugins</title>
 <meta name="description" content="65 patterns that mark an interface as AI-generated or poorly built. Searchable catalog with live examples, filters, and fix guidance.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 10v12L16 30 2 22V10Z' fill='%23f5f3ee' stroke='%232f7d4f' stroke-width='2'/%3E%3Ctext x='16' y='22' font-size='14' font-weight='700' text-anchor='middle' fill='%232f7d4f' font-family='Arial'%3EC%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="css/loader.css">
@@ -172,7 +172,7 @@ main{min-width:0}
 .legend details{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;max-width:640px}
 .legend summary{cursor:pointer;font-size:13.5px;font-weight:700;list-style:none;display:flex;align-items:center;gap:8px}
 .legend summary::before{content:"+";color:var(--accent);font-weight:800}
-.legend details[open] summary::before{content:"–"}
+.legend details[open] summary::before{content:"â€“"}
 .legend dl{display:grid;gap:10px;margin-top:12px}
 .legend dt{font-weight:700;font-size:12.5px}
 .legend dd{color:var(--dim);font-size:12.5px;margin-top:2px}
@@ -232,9 +232,9 @@ footer{margin-top:40px;border-top:1px solid var(--border);background:var(--surfa
             <path d="M11 21V11h2.4l4.6 6.4V11H20v10h-2.4L13 14.6V21Z" fill="currentColor"/>
         </svg>
         <div class="loader-name">Slop Catalog</div>
-        <div class="loader-sub">Crowz-Plugins · AI design detector</div>
+        <div class="loader-sub">Crowz-Plugins Â· AI design detector</div>
         <div class="loader-bar"><span></span></div>
-        <div class="loader-msg" data-loader-msg>Loading…</div>
+        <div class="loader-msg" data-loader-msg>Loadingâ€¦</div>
     </div>
 </div>
 
@@ -268,14 +268,14 @@ footer{margin-top:40px;border-top:1px solid var(--border);background:var(--surfa
     </div>
   </nav>
   <div class="g-slot" id="g-slot" aria-label="Account"></div>
-  <button class="theme-btn" id="theme-btn" aria-label="Toggle theme" title="Toggle dark / light theme">◐</button>
+  <button class="theme-btn" id="theme-btn" aria-label="Toggle theme" title="Toggle dark / light theme">â—</button>
 </header>
 
 <section class="hero">
-  <p class="eyebrow">AI design detector · inspired by Impeccable</p>
+  <p class="eyebrow">AI design detector Â· inspired by Impeccable</p>
   <h1>Slop: <em>the catalog.</em></h1>
   <p class="hero-lede">
-    <b>65 patterns</b> that mark an interface as AI-generated or just poorly built — with a live example and a fix for each one.
+    <b>65 patterns</b> that mark an interface as AI-generated or just poorly built â€” with a live example and a fix for each one.
     Every pattern is tagged by <b>type</b> (AI slop vs quality) and <b>detection layer</b> (CLI, Browser, or LLM-only).
     Search, filter, copy a rule, and check your own pages against them.
   </p>
@@ -285,12 +285,12 @@ footer{margin-top:40px;border-top:1px solid var(--border);background:var(--surfa
 <section class="controls">
   <div class="search-wrap">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-    <input id="search" type="search" placeholder="Search 65 rules — try “card”, “gradient”, “hero”…" autocomplete="off">
+    <input id="search" type="search" placeholder="Search 65 rules â€” try â€œcardâ€, â€œgradientâ€, â€œheroâ€â€¦" autocomplete="off">
     <span class="kbd-hint">/</span>
   </div>
   <div class="filter-group" id="cat-filters" role="group" aria-label="Filter by type"></div>
   <div class="filter-group" id="layer-filters" role="group" aria-label="Filter by detection layer"></div>
-  <button id="clear-filters" type="button">Clear all ✕</button>
+  <button id="clear-filters" type="button">Clear all âœ•</button>
   <p id="result-count"></p>
 </section>
 
@@ -301,9 +301,9 @@ footer{margin-top:40px;border-top:1px solid var(--border);background:var(--surfa
       <div><dt><span class="tag c-slop">AI slop</span></dt><dd>Rules that flag the recurring tells of AI-generated UIs.</dd></div>
       <div><dt><span class="tag c-quality">Quality</span></dt><dd>General design mistakes that hurt regardless of who wrote them.</dd></div>
       <div><dt><span class="tag c-personalized">Personalized</span></dt><dd>Only fires against your own documented design system (DESIGN.md).</dd></div>
-      <div><dt><span class="tag l-cli">CLI</span></dt><dd>Deterministic — runs on source files, no browser needed.</dd></div>
+      <div><dt><span class="tag l-cli">CLI</span></dt><dd>Deterministic â€” runs on source files, no browser needed.</dd></div>
       <div><dt><span class="tag l-browser">Browser</span></dt><dd>Deterministic, but needs a rendered browser layout to measure.</dd></div>
-      <div><dt><span class="tag l-llm">LLM only</span></dt><dd>No deterministic detector — caught by an LLM design review.</dd></div>
+      <div><dt><span class="tag l-llm">LLM only</span></dt><dd>No deterministic detector â€” caught by an LLM design review.</dd></div>
     </dl>
   </details>
 </section>
@@ -321,11 +321,11 @@ footer{margin-top:40px;border-top:1px solid var(--border);background:var(--surfa
   <div class="footer-inner">
     <p>
       Rule set derived from the open-source <a href="https://impeccable.style/slop/" target="_blank" rel="noopener">Impeccable slop catalog</a>
-      by <a href="https://x.com/pbakaus" target="_blank" rel="noopener">Paul Bakaus</a> — the original includes a live detector overlay.
+      by <a href="https://x.com/pbakaus" target="_blank" rel="noopener">Paul Bakaus</a> â€” the original includes a live detector overlay.
       Rebuilt and extended here as a standalone page for Crowz-Plugins.
     </p>
     <nav class="footer-links" aria-label="Footer">
-      <a href="index.html">← Back to plugins</a>
+      <a href="index.html">â† Back to plugins</a>
       <a href="https://impeccable.style" target="_blank" rel="noopener">Impeccable</a>
       <a href="https://github.com/kairoooo-dev/CrowzPlugins" target="_blank" rel="noopener">GitHub</a>
     </nav>
@@ -346,14 +346,14 @@ var SECTIONS=[
  {id:'motion',title:'Motion',lede:''},
  {id:'copy',title:'Copy',lede:''},
  {id:'imagery',title:'Imagery',lede:''},
- {id:'general-quality',title:'General quality',lede:'The boring stuff that makes or breaks a product — errors, contrast, readability, and padding.'}
+ {id:'general-quality',title:'General quality',lede:'The boring stuff that makes or breaks a product â€” errors, contrast, readability, and padding.'}
 ];
 
 var CATS={slop:'AI slop',quality:'Quality',personalized:'Personalized'};
 var LAYERS={cli:'CLI',browser:'Browser',llm:'LLM only'};
 
 var RULES=[
-{id:'rule-design-system-font',s:'design-system',c:'personalized',l:'cli',n:'Font outside DESIGN.md',d:'A font falls outside the documented type system. Use an approved face or update DESIGN.md.',x:'<div style="display:flex;flex-direction:column;align-items:center;gap:9px"><span style="font-family:\'Comic Sans MS\',cursive;font-size:36px;font-weight:700;color:var(--ink)">Aa</span><code style="font-size:11px;color:var(--faint)">Comic Sans MS · outside DESIGN.md</code></div>'},
+{id:'rule-design-system-font',s:'design-system',c:'personalized',l:'cli',n:'Font outside DESIGN.md',d:'A font falls outside the documented type system. Use an approved face or update DESIGN.md.',x:'<div style="display:flex;flex-direction:column;align-items:center;gap:9px"><span style="font-family:\'Comic Sans MS\',cursive;font-size:36px;font-weight:700;color:var(--ink)">Aa</span><code style="font-size:11px;color:var(--faint)">Comic Sans MS Â· outside DESIGN.md</code></div>'},
 {id:'rule-design-system-color',s:'design-system',c:'personalized',l:'cli',n:'Color outside DESIGN.md',d:'A literal color falls outside the documented palette. Use a token or make the addition intentional.',x:'<div style="display:flex;flex-direction:column;align-items:center;gap:9px"><div style="display:flex;gap:8px"><span class="sw" style="background:#d4a72c"></span><span class="sw" style="background:#5c9b8f"></span><span class="sw out" style="background:#b026ff"></span></div><code style="font-size:11px;color:var(--faint)">#b026ff is not in DESIGN.md</code></div>'},
 {id:'rule-design-system-radius',s:'design-system',c:'personalized',l:'cli',n:'Radius outside DESIGN.md',d:'A corner radius falls outside the documented shape scale. Use a token or update the system.',x:'<div style="display:flex;align-items:flex-end;gap:10px;font-family:var(--mono)"><span style="width:44px;height:44px;border:1px solid var(--border-strong);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--dim)">4</span><span style="width:44px;height:44px;border:1px solid var(--border-strong);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--dim)">8</span><span style="width:44px;height:44px;border:1px dashed var(--red);border-radius:28px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--red)">28</span></div>'},
 {id:'rule-design-system-font-size',s:'design-system',c:'personalized',l:'cli',n:'Font size outside DESIGN.md',d:'A font size falls between documented type steps. Use the scale or add a deliberate new step.',x:'<div style="display:flex;align-items:flex-end;gap:11px;color:var(--ink)"><span style="font-size:14px;font-weight:600">14</span><span style="font-size:16px;font-weight:600">16</span><span style="font-size:24px;font-weight:600">24</span><b style="font-size:19px;color:var(--red);border-bottom:2px dashed var(--red)">19</b></div>'},
@@ -370,7 +370,7 @@ var RULES=[
 {id:'rule-kicker-above-heading',s:'typography',c:'slop',l:'cli',n:'Kicker / eyebrow label above heading',d:'A tracked uppercase label above a heading borrows editorial authority it has not earned. Delete it, or work the words into the heading.',x:'<div style="text-align:left"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.18em;color:var(--faint)">Features</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:3px">What you get</div></div>'},
 {id:'rule-undersized-ui-text',s:'typography',c:'quality',l:'cli',n:'Undersized functional text',d:'Functional text under 11px fails on small and high-density screens. Keep links, labels, and table cells at a readable size.',x:'<div style="display:flex;gap:12px;align-items:baseline"><span style="font-size:8px;color:var(--faint)">Terms</span><span style="font-size:8px;color:var(--faint)">Privacy</span><span style="font-size:8px;color:var(--faint)">Status</span><span style="font-size:16px;color:var(--ink);margin-left:6px;font-weight:600">Aa</span></div>'},
 {id:'rule-flat-type-hierarchy',s:'typography',c:'slop',l:'cli',n:'Flat type hierarchy',d:'Font sizes are too close together. No clear visual hierarchy. Use fewer sizes with more contrast (aim for at least a 1.25 ratio between steps).',x:'<div style="line-height:1.35;text-align:left"><div style="font-size:17px;font-weight:600;color:var(--ink)">Heading</div><div style="font-size:16px;font-weight:500;color:var(--dim);margin:2px 0">Subheading</div><div style="font-size:15px;color:var(--faint)">Body at almost the same size.</div></div>'},
-{id:'rule-icon-tile-stack',s:'typography',c:'slop',l:'cli',n:'Icon tile stacked above heading',d:'A small rounded-square icon container above a heading is the universal AI feature-card template. Every generator outputs this exact shape. Try a side-by-side icon and heading, or let the icon sit in flow without its own container.',x:'<div style="text-align:left"><div style="width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#c26cdf);display:flex;align-items:center;justify-content:center;color:#fff;font-size:19px;font-weight:700;margin-bottom:8px">⚡</div><div style="font-size:13px;font-weight:600;color:var(--ink)">Feature name</div><div style="font-size:11px;color:var(--faint)">Rounded icon tile above heading.</div></div>'},
+{id:'rule-icon-tile-stack',s:'typography',c:'slop',l:'cli',n:'Icon tile stacked above heading',d:'A small rounded-square icon container above a heading is the universal AI feature-card template. Every generator outputs this exact shape. Try a side-by-side icon and heading, or let the icon sit in flow without its own container.',x:'<div style="text-align:left"><div style="width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#c26cdf);display:flex;align-items:center;justify-content:center;color:#fff;font-size:19px;font-weight:700;margin-bottom:8px">âš¡</div><div style="font-size:13px;font-weight:600;color:var(--ink)">Feature name</div><div style="font-size:11px;color:var(--faint)">Rounded icon tile above heading.</div></div>'},
 {id:'rule-italic-serif-display',s:'typography',c:'slop',l:'cli',n:'Italic serif display headline',d:'Oversized italic serif as the primary hero headline reads as taste in isolation but has become the universal AI-startup landing page hero. Set it roman, or move to a non-serif display face. Editorial registers may legitimately want it; judge by context.',x:'<div style="font-family:Georgia,\'Times New Roman\',serif;font-style:italic;font-size:31px;font-weight:500;color:var(--ink);line-height:1.05;text-align:left">Beautifully<br>Crafted</div>'},
 {id:'rule-hero-eyebrow-chip',s:'typography',c:'slop',l:'cli',n:'Hero eyebrow / pill chip',d:'A tiny uppercase letter-spaced label sitting immediately above an oversized hero headline, or the same shape rendered as a pill chip, is the default AI SaaS hero. Drop the eyebrow, fold the kicker into the headline, or run it as a breadcrumb instead.',x:'<div style="text-align:left"><span style="display:inline-block;font-size:9px;text-transform:uppercase;letter-spacing:.18em;color:#8b5cf6;background:rgba(139,92,246,.14);padding:3px 9px;border-radius:999px;margin-bottom:7px">Introducing</span><div style="font-size:20px;font-weight:700;color:var(--ink)">The hero headline</div></div>'},
 {id:'rule-oversized-h1',s:'typography',c:'slop',l:'cli',n:'Oversized hero headline',d:'A full-sentence headline set at display size dominates the viewport, leaving no room for anything else above the fold. A punchy one or two-word headline at that size is fine; the problem is a long headline blown up too large. Set long headlines smaller, or tighten the copy.',x:'<div style="font-size:42px;font-weight:800;color:var(--ink);line-height:.98;letter-spacing:-.02em;text-align:left">Everything your whole team needs to ship faster</div>'},
@@ -402,13 +402,13 @@ var RULES=[
 
 {id:'rule-pulsing-dot',s:'motion',c:'slop',l:'cli',n:'Pulsing status dot',d:'A decorative pulse makes static status look live. Animate only when the data is changing.',x:'<div style="display:flex;align-items:center;gap:10px"><span class="pulse-dot"></span><span style="font-size:12px;font-weight:600;color:var(--ink)">Systems operational</span></div>'},
 {id:'rule-blinking-cursor',s:'motion',c:'slop',l:'browser',n:'Decorative blinking cursor',d:'A fake caret makes non-editable hero copy look like a terminal. Let real inputs own the cursor.',x:'<div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:13px;color:var(--ink)"><span>&gt; Building the future</span><b class="cursor"></b></div>'},
-{id:'rule-marquee',s:'motion',c:'slop',l:'cli',n:'Auto-scrolling marquee',d:'Continuous auto-scroll demands attention and hides content. Let people read at their own pace.',x:'<div style="width:100%;overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:9px 0"><div class="marquee"><span style="padding-right:60px">NORTHWIND · HALCYON · MERIDIAN · FIELDNOTE ·</span><span>NORTHWIND · HALCYON · MERIDIAN · FIELDNOTE ·</span></div></div>'},
+{id:'rule-marquee',s:'motion',c:'slop',l:'cli',n:'Auto-scrolling marquee',d:'Continuous auto-scroll demands attention and hides content. Let people read at their own pace.',x:'<div style="width:100%;overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:9px 0"><div class="marquee"><span style="padding-right:60px">NORTHWIND Â· HALCYON Â· MERIDIAN Â· FIELDNOTE Â·</span><span>NORTHWIND Â· HALCYON Â· MERIDIAN Â· FIELDNOTE Â·</span></div></div>'},
 {id:'rule-bounce-easing',s:'motion',c:'slop',l:'cli',n:'Bounce or elastic easing',d:'Bounce and elastic easing on interface elements (a dialog that springs in, a card that overshoots) feels dated and tacky. Reserve spring physics for things that are actually physical; ease interface motion out smoothly (ease-out-quart/quint/expo).',x:'<div style="display:flex;flex-direction:column;align-items:center;gap:8px"><div class="bouncy" style="background:var(--card);border:1px solid var(--border-strong);border-radius:8px;padding:10px 16px;font-size:12px;font-weight:600;color:var(--ink);box-shadow:0 10px 26px rgba(0,0,0,.2)">Confirm action</div><div style="font-size:11px;color:var(--faint)">A dialog that springs in with overshoot.</div></div>'},
 {id:'rule-layout-transition',s:'motion',c:'quality',l:'cli',n:'Layout property animation',d:'Animating width, height, padding, or margin causes layout thrash and janky performance. Use transform and opacity instead, or grid-template-rows for height animations.',x:'<div style="display:flex;align-items:center;gap:10px"><span class="janky" style="background:#8b5cf6;border-radius:6px;width:60px;height:30px;flex:none"></span><span style="font-size:11px;color:var(--dim)">Animating width causes layout jank.</span></div>'},
-{id:'rule-image-hover-transform',s:'motion',c:'slop',l:'cli',n:'Image hover transform',d:'Scaling or rotating an image on hover is a recurring generated-UI signature. Let imagery sit still, or use a subtler, purposeful interaction.',x:'<div style="display:flex;flex-direction:column;align-items:center;gap:8px"><div class="imgzoom" style="width:104px;height:70px;border-radius:8px;background:linear-gradient(135deg,#c9a86a,#7a8b6f);cursor:pointer"></div><div style="font-size:11px;color:var(--faint)">Hover me — the image scales.</div></div>'},
+{id:'rule-image-hover-transform',s:'motion',c:'slop',l:'cli',n:'Image hover transform',d:'Scaling or rotating an image on hover is a recurring generated-UI signature. Let imagery sit still, or use a subtler, purposeful interaction.',x:'<div style="display:flex;flex-direction:column;align-items:center;gap:8px"><div class="imgzoom" style="width:104px;height:70px;border-radius:8px;background:linear-gradient(135deg,#c9a86a,#7a8b6f);cursor:pointer"></div><div style="font-size:11px;color:var(--faint)">Hover me â€” the image scales.</div></div>'},
 
 {id:'rule-repeated-container-text',s:'copy',c:'quality',l:'cli',n:'Same text repeated inside one container',d:'The same label appears in several slots of one card. Keep it once, where it matters.',x:'<div style="display:flex;gap:12px;align-items:center"><strong style="font-size:12px;color:var(--ink)">Ready</strong><span style="font-size:12px;color:var(--dim)">Ready</span><button style="font-size:11px;background:var(--card);border:1px solid var(--border-strong);color:var(--ink);padding:5px 12px;border-radius:6px">Ready</button></div>'},
-{id:'rule-em-dash-overuse',s:'copy',c:'slop',l:'cli',n:'Em-dash overuse',d:'More than a couple of em-dashes in body copy is an AI cadence tell. Use commas, colons, periods, or parentheses instead.',x:'<div style="font-family:Georgia,serif;font-size:13px;color:var(--ink);line-height:1.6;max-width:235px;text-align:left">It works <b style="color:#e07b39">—</b> really well <b style="color:#e07b39">—</b> for teams <b style="color:#e07b39">—</b> of any size <b style="color:#e07b39">—</b> anywhere.</div>'},
+{id:'rule-em-dash-overuse',s:'copy',c:'slop',l:'cli',n:'Em-dash overuse',d:'More than a couple of em-dashes in body copy is an AI cadence tell. Use commas, colons, periods, or parentheses instead.',x:'<div style="font-family:Georgia,serif;font-size:13px;color:var(--ink);line-height:1.6;max-width:235px;text-align:left">It works <b style="color:#e07b39">â€”</b> really well <b style="color:#e07b39">â€”</b> for teams <b style="color:#e07b39">â€”</b> of any size <b style="color:#e07b39">â€”</b> anywhere.</div>'},
 {id:'rule-marketing-buzzword',s:'copy',c:'slop',l:'cli',n:'Marketing buzzword',d:'Generic SaaS phrases (streamline, empower, supercharge, world-class, enterprise-grade) are instant AI tells. Pick a specific verb and noun that says what the product literally does.',x:'<div style="text-align:left;line-height:1.5"><div style="font-size:15px;font-weight:700;color:var(--ink)">Supercharge your workflow</div><div style="font-size:11px;color:var(--faint)">World-class, enterprise-grade, next-generation.</div></div>'},
 {id:'rule-aphoristic-cadence',s:'copy',c:'slop',l:'cli',n:'Aphoristic-cadence copy',d:'Sections landing on a short rebuttal or a manufactured-contrast aphorism read as AI cadence, not voice. Once is fine; the repeated pattern is the tell.',x:'<div style="font-family:Georgia,serif;text-align:left;line-height:1.4"><div style="font-size:14px;font-weight:600;color:var(--ink)">Not a feature.</div><div style="font-size:14px;font-weight:600;color:var(--ink)">A platform.</div></div>'},
 {id:'rule-theater-slop-phrase',s:'copy',c:'slop',l:'cli',n:'Theater framing copy',d:'Dismissing something as "theater" is a recurring generated-copy tic. Say plainly what the thing does or does not do.',x:'<div style="text-align:left;line-height:1.5"><div style="font-size:14px;font-weight:700;color:var(--ink)">We killed the growth <span style="color:#e07b39">theater</span>.</div><div style="font-size:11px;color:var(--faint)">Dismissing things as performative.</div></div>'},
@@ -444,8 +444,8 @@ function cardHTML(r){
       '<h3 class="rule-name">'+r.n+'</h3>'+
       '<p class="rule-desc">'+r.d+'</p>'+
       '<div class="rule-foot">'+
-        '<button class="copy-btn" type="button" title="Copy this rule">📋 Copy</button>'+
-        '<a class="rule-ext" href="https://impeccable.style/slop/" target="_blank" rel="noopener">See original →</a>'+
+        '<button class="copy-btn" type="button" title="Copy this rule">ðŸ“‹ Copy</button>'+
+        '<a class="rule-ext" href="https://impeccable.style/slop/" target="_blank" rel="noopener">See original â†’</a>'+
       '</div>'+
     '</div></article>';
 }
@@ -528,7 +528,7 @@ function applyFilters(){
   });
   var rc=document.getElementById('result-count');
   if(q||state.c!=='all'||state.l!=='all'){
-    rc.textContent=shown+' of '+RULES.length+' patterns match'+(q?' “'+state.q.trim()+'”':'')+(state.c!=='all'?' · '+CATS[state.c]:'')+(state.l!=='all'?' · '+LAYERS[state.l]:'');
+    rc.textContent=shown+' of '+RULES.length+' patterns match'+(q?' â€œ'+state.q.trim()+'â€':'')+(state.c!=='all'?' Â· '+CATS[state.c]:'')+(state.l!=='all'?' Â· '+LAYERS[state.l]:'');
     document.getElementById('clear-filters').style.display='block';
   }else{
     rc.textContent='';
@@ -539,7 +539,7 @@ function applyFilters(){
     if(!empty){
       empty=document.createElement('div');
       empty.className='empty';
-      empty.innerHTML='<b>No slop found.</b>That combination matches nothing — loosen the filters or clear the search.';
+      empty.innerHTML='<b>No slop found.</b>That combination matches nothing â€” loosen the filters or clear the search.';
       main.appendChild(empty);
     }
     empty.style.display='block';
@@ -562,8 +562,8 @@ document.addEventListener('click',function(e){
   if(!btn)return;
   var card=btn.closest('.rule-card');
   var id=card.id,r=RULES.find(function(x){return x.id===id});
-  var text=r.n+' ('+CATS[r.c]+' · '+LAYERS[r.l]+')\n'+r.d;
-  function done(){btn.classList.add('is-copied');btn.textContent='✓ Copied';setTimeout(function(){btn.classList.remove('is-copied');btn.textContent='📋 Copy';},1600);}
+  var text=r.n+' ('+CATS[r.c]+' Â· '+LAYERS[r.l]+')\n'+r.d;
+  function done(){btn.classList.add('is-copied');btn.textContent='âœ“ Copied';setTimeout(function(){btn.classList.remove('is-copied');btn.textContent='ðŸ“‹ Copy';},1600);}
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(function(){fallbackCopy(text,done);});}
   else fallbackCopy(text,done);
 });
@@ -599,7 +599,7 @@ function applyTheme(t){
   document.documentElement.setAttribute('data-theme',t);
   var m=document.querySelector('meta[name="theme-color"]');
   if(m)m.setAttribute('content',t==='light'?'#f7f8fa':'#060708');
-  tb.textContent=t==='light'?'☾':'☀';
+  tb.textContent=t==='light'?'â˜¾':'â˜€';
   try{localStorage.setItem('crowz-theme',t);}catch(e){}
 }
 tb.addEventListener('click',function(){
@@ -646,7 +646,7 @@ applyTheme(document.documentElement.getAttribute('data-theme')||'dark');
     if(u.demo){
       var chip=document.createElement('span');
       chip.className='g-demo-chip';
-      chip.textContent='Demo session · not real OAuth';
+      chip.textContent='Demo session Â· not real OAuth';
       menuEl.appendChild(chip);
       var setup=document.createElement('button');
       setup.className='g-menu-item';
@@ -787,7 +787,8 @@ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
 })();
 </script>
 <script src="js/loader.js"></script>
-<!-- Adsterra ad zone 5962540 -->
-<script type="text/javascript" src="//www.highperformanceformat.com/5962540/invoke.js"></script>
-</body>
+<!-- Adsterra ads -->
+<script src="https://pl30714724.effectivecpmnetwork.com/b4/48/93/b44893f74b6635d25d6759c09cbf378f.js"></script>
+<script src="https://pl30714725.effectivecpmnetwork.com/a6/05/cf/a605cf67faa182dce0591db5940f3436.js"></script>
+</body></body>
 </html>
