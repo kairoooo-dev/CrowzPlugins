@@ -20,6 +20,15 @@
     const CATEGORY_LABELS = { pvp: 'PvP', voice: 'Voice', security: 'Security', economy: 'Economy', utility: 'Utility', core: 'Core' };
     const CATEGORY_ICONS = { pvp: '⚔️', voice: '🎙️', security: '🔐', economy: '💰', utility: '🔧', core: '⚙️' };
 
+    // ---------- Download monetization (Linkvertise) ----------
+    // Downloads open a Linkvertise verification page first; it forwards the
+    // visitor to the real jar. Add per-plugin links as LINKVERTISE[id] = url;
+    // '*' is the default for every plugin that has no specific link.
+    const LINKVERTISE = {
+        'staffmoderationplus': 'https://link-target.net/8144812/GMKxDFzFdrPw',
+        '*': 'https://link-target.net/4632132/JTBkTxqrkUTF'
+    };
+
     // ---------- Card rendering (Modrinth style) ----------
     function createCard(p, index) {
         const card = document.createElement('article');
@@ -287,6 +296,14 @@
         doDownload(p);
     }
     function doDownload(p) {
+        const gated = LINKVERTISE[p.id] || LINKVERTISE['*'];
+        if (gated) {
+            registerDownload(p);
+            refreshCounts();
+            toast(`Opening download for ${p.name} v${p.version} — complete the quick step, then the file downloads.`);
+            window.location.href = gated;
+            return;
+        }
         const a = document.createElement('a');
         if (p.dataUrl) {
             a.href = p.dataUrl;

@@ -42,7 +42,7 @@
         },
         {
             match: /license|key|unlock|free|account|sign.?up|register/i,
-            answer: () => `✅ <b>No license keys.</b> Every plugin is free — but you do need a free account to download. Hit <b>Download</b> on any plugin and you'll be prompted to create one (takes 10 seconds). No keys, no paywalls, no premium versions.`
+            answer: () => `✅ <b>No license keys on most plugins.</b> Every plugin is free — you just log in with a free account, then the Download button opens a short verification page before the jar downloads (takes a few seconds). Only StaffModerationPlus needs a free license key. No paywalls, no premium versions.`
         },
         {
             match: /pvp|combat|best.*pvp/i,
