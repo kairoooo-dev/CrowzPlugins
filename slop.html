@@ -7,6 +7,7 @@
 <title>Slop Catalog · Crowz-Plugins</title>
 <meta name="description" content="65 patterns that mark an interface as AI-generated or poorly built. Searchable catalog with live examples, filters, and fix guidance.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 10v12L16 30 2 22V10Z' fill='%23f5f3ee' stroke='%232f7d4f' stroke-width='2'/%3E%3Ctext x='16' y='22' font-size='14' font-weight='700' text-anchor='middle' fill='%232f7d4f' font-family='Arial'%3EC%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/loader.css">
 <style>
 :root{
   --bg:#060708; --surface:#0c0e11; --card:#101318; --card2:#14171c;
@@ -45,6 +46,25 @@ html[data-theme="light"] .topbar{background:rgba(247,248,250,.85)}
 .topbar-nav a:hover{color:var(--ink);background:var(--card2);text-decoration:none}
 .theme-btn{width:34px;height:34px;display:grid;place-items:center;border-radius:9px;border:1px solid var(--border);background:var(--card);color:var(--dim);cursor:pointer;font-size:15px;transition:color .15s,border-color .15s}
 .theme-btn:hover{color:var(--accent);border-color:var(--border-strong)}
+.g-slot{position:relative;display:flex;align-items:center}
+.g-btn{display:flex;align-items:center;gap:8px;background:#fff;color:#1f2937;border:1px solid #e5e7eb;border-radius:999px;padding:7px 14px;font:600 13px var(--font);cursor:pointer;transition:box-shadow .15s,transform .1s}
+.g-btn:hover{box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.g-btn:active{transform:scale(.97)}
+.g-btn svg{width:17px;height:17px}
+.g-user-btn{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:999px;padding:4px 12px 4px 5px;color:var(--ink);cursor:pointer;font:600 13px var(--font);transition:border-color .15s}
+.g-user-btn:hover{border-color:var(--accent)}
+.g-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--violet));color:#04141d;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;overflow:hidden;flex:none}
+.g-avatar img{width:100%;height:100%;object-fit:cover}
+.g-name{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.g-chev{width:12px;height:12px;color:var(--faint);flex:none}
+.g-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:230px;background:var(--card);border:1px solid var(--border-strong);border-radius:12px;box-shadow:var(--shadow);padding:6px;z-index:60;animation:cardIn .16s ease both}
+.g-menu-mail{font-size:11.5px;color:var(--faint);padding:7px 10px 9px;border-bottom:1px solid var(--border);margin-bottom:6px;word-break:break-all}
+.g-menu-item{display:flex;align-items:center;gap:9px;width:100%;background:none;border:none;color:var(--dim);font:600 13px var(--font);padding:9px 10px;border-radius:8px;cursor:pointer;text-align:left}
+.g-menu-item:hover{background:var(--card2);color:var(--ink)}
+.g-menu-item.danger:hover{color:var(--red)}
+.g-demo-chip{display:inline-block;margin:0 10px 4px;background:rgba(240,196,90,.1);border:1px solid rgba(240,196,90,.35);color:var(--gold);font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px}
+.g-toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);font:600 13px var(--font);padding:10px 18px;border-radius:10px;z-index:100;animation:cardIn .2s ease both;max-width:min(420px,90vw);text-align:center}
+.g-toast.err{background:var(--red);color:#fff}
 
 /* ---------- hero ---------- */
 .hero{max-width:1180px;margin:0 auto;padding:56px 24px 26px}
@@ -247,6 +267,7 @@ footer{margin-top:40px;border-top:1px solid var(--border);background:var(--surfa
       </div>
     </div>
   </nav>
+  <div class="g-slot" id="g-slot" aria-label="Account"></div>
   <button class="theme-btn" id="theme-btn" aria-label="Toggle theme" title="Toggle dark / light theme">◐</button>
 </header>
 
@@ -311,6 +332,7 @@ footer{margin-top:40px;border-top:1px solid var(--border);background:var(--surfa
   </div>
 </footer>
 
+<script src="js/google-auth.js"></script>
 <script src="js/google-auth.js"></script>
 <script>
 (function(){try{var t=localStorage.getItem('crowz-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
@@ -585,6 +607,108 @@ tb.addEventListener('click',function(){
 });
 applyTheme(document.documentElement.getAttribute('data-theme')||'dark');
 
+/* ---------------- Google sign-in ---------------- */
+(function(){
+  if(!window.CrowzGoogle)return;
+  var gl=window.CrowzGoogle;
+  var slot=document.getElementById('g-slot');
+  if(!slot)return;
+  var menuEl=null;
+
+  function toast(msg,isErr){
+    var t=document.createElement('div');
+    t.className='g-toast'+(isErr?' err':'');
+    t.textContent=msg;
+    document.body.appendChild(t);
+    setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .25s';},2600);
+    setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t);},3000);
+  }
+
+  function signInFlow(btn){
+    gl.signIn().then(function(res){
+      if(res&&res.error){toast(res.error,true);}
+    });
+  }
+
+  function closeMenu(){
+    if(menuEl&&menuEl.parentNode)menuEl.parentNode.removeChild(menuEl);
+    menuEl=null;
+  }
+
+  function openMenu(u){
+    closeMenu();
+    menuEl=document.createElement('div');
+    menuEl.className='g-menu';
+    var mail=document.createElement('div');
+    mail.className='g-menu-mail';
+    mail.textContent=u.email;
+    menuEl.appendChild(mail);
+    if(u.demo){
+      var chip=document.createElement('span');
+      chip.className='g-demo-chip';
+      chip.textContent='Demo session · not real OAuth';
+      menuEl.appendChild(chip);
+      var setup=document.createElement('button');
+      setup.className='g-menu-item';
+      setup.textContent='Set up real Google login';
+      setup.addEventListener('click',function(){closeMenu();gl.openSetup();});
+      menuEl.appendChild(setup);
+    }
+    var out=document.createElement('button');
+    out.className='g-menu-item danger';
+    out.textContent='Sign out';
+    out.addEventListener('click',function(){closeMenu();gl.signOut();});
+    menuEl.appendChild(out);
+    slot.appendChild(menuEl);
+    document.addEventListener('click',function outside(e){
+      if(!menuEl||!slot.contains(e.target)){closeMenu();document.removeEventListener('click',outside);}
+    });
+  }
+
+  function render(){
+    slot.innerHTML='';
+    var u=gl.getUser();
+    if(u){
+      var btn=document.createElement('button');
+      btn.className='g-user-btn';
+      btn.title='Signed in as '+u.email;
+      var av=document.createElement('span');
+      av.className='g-avatar';
+      if(u.picture&&!u.demo){
+        var img=document.createElement('img');
+        img.src=u.picture;
+        img.alt='';
+        av.appendChild(img);
+      }else{
+        av.textContent=(u.name||u.email||'?').charAt(0).toUpperCase();
+      }
+      btn.appendChild(av);
+      var nm=document.createElement('span');
+      nm.className='g-name';
+      nm.textContent=(u.name||u.email||'').split(' ')[0];
+      btn.appendChild(nm);
+      btn.addEventListener('click',function(e){e.stopPropagation();openMenu(u);});
+      slot.appendChild(btn);
+    }else{
+      var gb=document.createElement('button');
+      gb.className='g-btn';
+      gb.type='button';
+      gb.innerHTML=gl.G_LOGO+'<span>Sign in</span>';
+      gb.title=gl.isConfigured()?'Sign in with Google':'Google login (demo mode until configured)';
+      gb.addEventListener('click',function(){
+        gb.disabled=true;
+        gb.style.opacity='.6';
+        signInFlow(gb);
+        setTimeout(function(){gb.disabled=false;gb.style.opacity='';},1200);
+      });
+      slot.appendChild(gb);
+    }
+  }
+
+  document.addEventListener('crowz:google-auth',render);
+  render();
+})();
+
 /* ---------------- entrance animation ---------------- */
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
   var cards=document.querySelectorAll('.rule-card');
@@ -663,5 +787,7 @@ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
 })();
 </script>
 <script src="js/loader.js"></script>
+<!-- Adsterra ad zone 5962540 -->
+<script type="text/javascript" src="//www.highperformanceformat.com/5962540/invoke.js"></script>
 </body>
 </html>

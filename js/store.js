@@ -23,10 +23,6 @@ window.CrowzStore = (() => {
 
     // ---------- Catalog ----------
     function getCatalog() {
-        const stored = read(CATALOG_KEY, null);
-        const valid = Array.isArray(stored) && stored.length &&
-            stored.every(p => p && typeof p === 'object' && typeof p.id === 'string' && p.id.length > 0);
-        if (valid) return stored;
         return Array.isArray(PLUGINS) && PLUGINS.length ? PLUGINS : [];
     }
     function saveCatalog(list) {

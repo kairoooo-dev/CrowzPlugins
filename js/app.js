@@ -464,6 +464,7 @@
             try {
                 const user = await gl.signIn();
                 if (!user) return;
+                if (user.error) { toast(user.error); return; }
                 account = store.googleSignIn(user);
                 closeAuthModal();
                 renderAccountArea();

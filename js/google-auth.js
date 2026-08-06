@@ -1,26 +1,41 @@
 /* ============================================================
    Crowz-Plugins — Google sign-in (self-contained, reusable)
    ------------------------------------------------------------
-   Real OAuth is used when a Google Cloud client ID is configured
-   before this script loads:
+   LEGITIMATE OAuth 2.0 via Google Identity Services.
 
-       window.CROWZ_GOOGLE_CLIENT_ID = 'xxxx.apps.googleusercontent.com';
-
-   It then loads Google Identity Services and uses the One Tap flow.
-
-   Without a client ID (local previews, demos), it falls back to a
-   built-in simulated Google account chooser so the entire flow can
-   be experienced end-to-end. The session persists in localStorage,
-   and a 'crowz:google-auth' event fires on every change so any page
-   can react.
+   How it works:
+   1. A Google Cloud OAuth Client ID is required. Set it with
+        CrowzGoogle.configure('xxxx.apps.googleusercontent.com')
+      (persisted to localStorage) or define the global
+        window.CROWZ_GOOGLE_CLIENT_ID
+      BEFORE this script loads.
+   2. When configured, this loads Google Identity Services,
+      renders the official Sign in with Google button, and
+      verifies the returned ID token:
+        - JWT claims are checked (issuer, audience, expiry,
+          email_verified)
+        - the token is re-verified against Google's
+          tokeninfo endpoint before a session is created
+   3. Without a client ID the flow runs a clearly-labelled
+      simulated account chooser for local previews only —
+      the deployed site will never pretend to be Google.
+   4. The session persists in localStorage and a
+      'crowz:google-auth' event fires on every change.
    ============================================================ */
 window.CrowzGoogle = (function () {
     'use strict';
 
     var SESSION_KEY = 'crowz_google_session';
-    var CLIENT_ID = (typeof window.CROWZ_GOOGLE_CLIENT_ID === 'string' && window.CROWZ_GOOGLE_CLIENT_ID)
-        ? window.CROWZ_GOOGLE_CLIENT_ID : '';
+    var CFG_KEY = 'crowz_google_clientid';
     var STYLE_ID = 'cg-style';
+
+    function globalClientId() {
+        return (typeof window.CROWZ_GOOGLE_CLIENT_ID === 'string' && window.CROWZ_GOOGLE_CLIENT_ID) ? window.CROWZ_GOOGLE_CLIENT_ID : '';
+    }
+    function storedClientId() {
+        try { return localStorage.getItem(CFG_KEY) || ''; } catch (e) { return ''; }
+    }
+    var CLIENT_ID = globalClientId() || storedClientId();
 
     var G_LOGO = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">' +
         '<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1Z" fill="#4285F4"/>' +
@@ -33,7 +48,10 @@ window.CrowzGoogle = (function () {
     function readUser() {
         try {
             var raw = localStorage.getItem(SESSION_KEY);
-            return raw ? JSON.parse(raw) : null;
+            if (!raw) return null;
+            var u = JSON.parse(raw);
+            if (u && u.exp && u.exp * 1000 < Date.now()) { clearUser(); return null; }
+            return u;
         } catch (e) { return null; }
     }
     function writeUser(user) {
@@ -48,9 +66,18 @@ window.CrowzGoogle = (function () {
 
     function getUser() { return readUser(); }
     function isConfigured() { return !!CLIENT_ID; }
+    function getClientId() { return CLIENT_ID; }
+    function configure(id) {
+        var v = String(id || '').trim();
+        if (v && !/\.apps\.googleusercontent\.com$/.test(v)) throw new Error('That does not look like a Google Client ID (should end in .apps.googleusercontent.com).');
+        CLIENT_ID = v;
+        try { if (v) localStorage.setItem(CFG_KEY, v); else localStorage.removeItem(CFG_KEY); } catch (e) {}
+        emitChange();
+        return v;
+    }
     function signOut() { clearUser(); emitChange(); }
 
-    // ---------- Simulated Google account chooser ----------
+    // ---------- Simulated chooser (local preview only) ----------
     var DEMO_ACCOUNTS = [
         { name: 'CrowzDev', email: 'crowzwdev@gmail.com', color: '#1a73e8', initial: 'C' },
         { name: 'Alex Morgan', email: 'alexmorgan.dev@gmail.com', color: '#e3742b', initial: 'A' },
@@ -63,7 +90,7 @@ window.CrowzGoogle = (function () {
         st.id = STYLE_ID;
         st.textContent = [
             '.cg-overlay{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;background:rgba(3,5,8,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:cg-fade .18s ease;padding:16px}',
-            '.cg-card{width:min(420px,100%);background:#1d1f24;border:1px solid rgba(255,255,255,.09);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.55);overflow:hidden;animation:cg-pop .22s cubic-bezier(.22,1,.36,1);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:#e8eef4}',
+            '.cg-card{width:min(430px,100%);background:#1d1f24;border:1px solid rgba(255,255,255,.09);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.55);overflow:hidden;animation:cg-pop .22s cubic-bezier(.22,1,.36,1);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:#e8eef4}',
             '.cg-head{padding:22px 24px 14px;text-align:center}',
             '.cg-logo{width:44px;height:44px;margin:0 auto 10px}',
             '.cg-logo svg{width:100%;height:100%}',
@@ -85,6 +112,16 @@ window.CrowzGoogle = (function () {
             '.cg-cancel{background:none;border:none;color:#9aa8b8;font-size:13.5px;font-weight:600;cursor:pointer;padding:8px 12px;border-radius:8px;font-family:inherit}',
             '.cg-cancel:hover{color:#e8eef4;background:rgba(255,255,255,.06)}',
             '.cg-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.35);color:#7dd3fc;font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:999px}',
+            '.cg-chip.warn{background:rgba(240,196,90,.1);border-color:rgba(240,196,90,.35);color:#f0c45a}',
+            '.cg-field{width:100%;margin:10px 0 4px;padding:11px 13px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:#e8eef4;font:500 13px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;outline:none}',
+            '.cg-field:focus{border-color:#38bdf8}',
+            '.cg-err{color:#f87171;font-size:12px;margin:6px 2px 0}',
+            '.cg-primary{display:block;width:100%;margin-top:10px;padding:11px;border:none;border-radius:10px;background:#38bdf8;color:#04141d;font:700 14px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;cursor:pointer}',
+            '.cg-primary:disabled{opacity:.5;cursor:wait}',
+            '.cg-link{background:none;border:none;color:#9aa8b8;font-size:12.5px;font-weight:600;cursor:pointer;text-decoration:underline;padding:4px;font-family:inherit}',
+            '.cg-steps{margin:0;padding:2px 22px 0;text-align:left;font-size:12.5px;color:#c6d0dc;line-height:1.6}',
+            '.cg-steps li{margin-bottom:8px}',
+            '.cg-steps code{background:rgba(255,255,255,.07);border-radius:5px;padding:1px 6px;font-size:11.5px;color:#7dd3fc;word-break:break-all}',
             '@keyframes cg-fade{from{opacity:0}to{opacity:1}}',
             '@keyframes cg-pop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}'
         ].join('\n');
@@ -122,7 +159,8 @@ window.CrowzGoogle = (function () {
                     '<div class="cg-foot">To continue, Google will share your name, email address and profile picture with Crowz-Plugins.</div>' +
                     '<div class="cg-actions">' +
                         '<button type="button" class="cg-cancel" data-cancel="1">Cancel</button>' +
-                        '<span class="cg-chip">Demo · no OAuth configured</span>' +
+                        '<button type="button" class="cg-link" data-setup="1">Set up real Google login</button>' +
+                        '<span class="cg-chip warn">Demo · no OAuth configured</span>' +
                     '</div>' +
                 '</div>';
             document.body.appendChild(overlay);
@@ -137,16 +175,17 @@ window.CrowzGoogle = (function () {
                     if (DEMO_ACCOUNTS[i].email === email) { acc = DEMO_ACCOUNTS[i]; break; }
                 }
                 if (!acc) return;
-                cleanup({ name: acc.name, email: acc.email, picture: '', sub: 'sim-' + acc.email, provider: 'google' });
+                cleanup({ name: acc.name, email: acc.email, picture: '', sub: 'sim-' + acc.email, provider: 'google', demo: true });
             }
             overlay.addEventListener('click', function (e) {
                 var accBtn = e.target.closest('.cg-acc');
                 if (accBtn) { pick(accBtn.getAttribute('data-email')); return; }
                 if (e.target.closest('[data-other]')) {
                     var n = Math.floor(Math.random() * 9000) + 1000;
-                    cleanup({ name: 'Minecraft Fan ' + n, email: 'player' + n + '.mc@gmail.com', picture: '', sub: 'sim-' + n, provider: 'google' });
+                    cleanup({ name: 'Minecraft Fan ' + n, email: 'player' + n + '.mc@gmail.com', picture: '', sub: 'sim-' + n, provider: 'google', demo: true });
                     return;
                 }
+                if (e.target.closest('[data-setup]')) { cleanup(null); openSetup(); return; }
                 if (e.target.closest('[data-cancel]')) cleanup(null);
             });
             overlay.addEventListener('keydown', function (e) {
@@ -177,6 +216,24 @@ window.CrowzGoogle = (function () {
             return JSON.parse(decodeURIComponent(escape(atob(part))));
         } catch (e) { return null; }
     }
+    function verifyClaims(payload) {
+        if (!payload) throw new Error('Could not read the Google ID token.');
+        var now = Math.floor(Date.now() / 1000);
+        if (typeof payload.exp !== 'number' || payload.exp < now) throw new Error('The Google token has expired.');
+        if (payload.aud !== CLIENT_ID) throw new Error('This token was not issued to this site.');
+        var iss = String(payload.iss || '');
+        if (iss !== 'accounts.google.com' && iss !== 'https://accounts.google.com') throw new Error('Unexpected token issuer.');
+        if (payload.email_verified === false || payload.email_verified === 'false') throw new Error('The Google email is not verified.');
+    }
+    function verifyWithGoogle(token) {
+        return fetch('https://oauth2.googleapis.com/tokeninfo?id_token=' + encodeURIComponent(token))
+            .then(function (r) { return r.json(); })
+            .then(function (json) {
+                if (json && json.error_description) throw new Error(json.error_description);
+                if (!json || json.aud !== CLIENT_ID) throw new Error('Google rejected this token for this site.');
+                return json;
+            });
+    }
     function signInReal() {
         return loadGIS().then(function (accounts) {
             return new Promise(function (resolve) {
@@ -188,21 +245,103 @@ window.CrowzGoogle = (function () {
                         if (done) return;
                         done = true;
                         clearTimeout(timer);
-                        var payload = decodeJWT(resp && resp.credential);
-                        if (!payload || !payload.email) { resolve(null); return; }
-                        var user = {
-                            name: payload.name || '',
-                            email: payload.email,
-                            picture: payload.picture || '',
-                            sub: payload.sub || '',
-                            provider: 'google'
-                        };
-                        writeUser(user);
-                        emitChange();
-                        resolve(user);
+                        var token = resp && resp.credential;
+                        var payload = decodeJWT(token);
+                        try {
+                            verifyClaims(payload);
+                        } catch (e) {
+                            resolve({ error: e.message });
+                            return;
+                        }
+                        verifyWithGoogle(token).then(function () {
+                            var user = {
+                                name: payload.name || '',
+                                email: payload.email,
+                                picture: payload.picture || '',
+                                sub: payload.sub || '',
+                                provider: 'google',
+                                exp: payload.exp,
+                                demo: false
+                            };
+                            writeUser(user);
+                            emitChange();
+                            resolve(user);
+                        }).catch(function (e) {
+                            resolve({ error: e.message });
+                        });
+                    },
+                    error_callback: function (err) {
+                        if (done) return;
+                        done = true;
+                        clearTimeout(timer);
+                        var msg = (err && err.type === 'popup_closed') ? 'Sign-in window closed.' : 'Google sign-in failed.';
+                        resolve({ error: msg });
                     }
                 });
                 accounts.id.prompt();
+            });
+        });
+    }
+
+    // ---------- Setup panel ----------
+    function openSetup() {
+        injectStyles();
+        return new Promise(function (resolve) {
+            var overlay = document.createElement('div');
+            overlay.className = 'cg-overlay';
+            var origin = window.location.origin || window.location.href;
+            overlay.innerHTML =
+                '<div class="cg-card" role="dialog" aria-modal="true" aria-label="Set up Google sign-in">' +
+                    '<div class="cg-head">' +
+                        '<div class="cg-logo">' + G_LOGO + '</div>' +
+                        '<div class="cg-title">Set up real Google login</div>' +
+                        '<div class="cg-sub">Paste your Google Cloud OAuth Client ID to enable genuine sign-in.</div>' +
+                    '</div>' +
+                    '<ol class="cg-steps">' +
+                        '<li>Open <code>console.cloud.google.com</code> → create a project (or pick one).</li>' +
+                        '<li><code>APIs &amp; Services → OAuth consent screen</code> → External → fill the app name and your email.</li>' +
+                        '<li><code>Credentials → Create credentials → OAuth client ID → Web application</code>.</li>' +
+                        '<li>Add <code>' + origin + '</code> (or your domain) under <b>Authorized JavaScript origins</b>.</li>' +
+                        '<li>Copy the client ID into the box below and save.</li>' +
+                    '</ol>' +
+                    '<div style="padding:0 22px">' +
+                        '<input class="cg-field" id="cg-clientid" placeholder="1234567890-abcdef.apps.googleusercontent.com" value="' + CLIENT_ID + '" autocomplete="off">' +
+                        '<p class="cg-err" id="cg-err" hidden></p>' +
+                        '<button type="button" class="cg-primary" id="cg-save">Save &amp; continue</button>' +
+                    '</div>' +
+                    '<div class="cg-actions">' +
+                        '<button type="button" class="cg-cancel" data-cancel="1">Cancel</button>' +
+                        '<button type="button" class="cg-link" data-demo="1">Use demo mode instead</button>' +
+                    '</div>' +
+                '</div>';
+            document.body.appendChild(overlay);
+
+            function cleanup(result) {
+                if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+                resolve(result);
+            }
+            function save() {
+                var v = overlay.querySelector('#cg-clientid').value.trim();
+                var err = overlay.querySelector('#cg-err');
+                try {
+                    configure(v);
+                    err.hidden = true;
+                    cleanup({ configured: v });
+                } catch (e) {
+                    err.textContent = e.message;
+                    err.hidden = false;
+                }
+            }
+            overlay.querySelector('#cg-save').addEventListener('click', save);
+            overlay.querySelector('#cg-clientid').addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') save();
+            });
+            overlay.addEventListener('click', function (e) {
+                if (e.target.closest('[data-cancel]')) cleanup(null);
+                if (e.target.closest('[data-demo]')) cleanup({ demo: true });
+            });
+            overlay.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') cleanup(null);
             });
         });
     }
@@ -211,7 +350,7 @@ window.CrowzGoogle = (function () {
     function signIn() {
         if (CLIENT_ID) return signInReal();
         return openChooser().then(function (user) {
-            if (user) { writeUser(user); emitChange(); }
+            if (user && !user.error) { writeUser(user); emitChange(); }
             return user;
         });
     }
@@ -221,6 +360,9 @@ window.CrowzGoogle = (function () {
         signIn: signIn,
         signOut: signOut,
         isConfigured: isConfigured,
+        getClientId: getClientId,
+        configure: configure,
+        openSetup: openSetup,
         G_LOGO: G_LOGO
     };
 })();
