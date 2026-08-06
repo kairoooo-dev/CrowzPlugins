@@ -2244,3 +2244,50 @@ input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 12px rg
     from { opacity: 0; transform: scale(.97) translateY(14px); }
     to { opacity: 1; transform: none; }
 }
+
+/* ---------------- Ad slots (Adsterra) ---------------- */
+.ad-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 20px 16px 4px;
+}
+.ad-slot iframe {
+    max-width: 100%;
+}
+.ad-tag {
+    font-size: 10.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-faint, #5f6c7a);
+}
+.ad-box {
+    max-width: 728px;
+    margin: 18px auto;
+    padding: 14px 18px;
+    border: 1px dashed var(--border, #1a1a1a);
+    border-radius: var(--radius, 12px);
+    background: var(--surface, #0a0a0a);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.ad-box .ad-tag {
+    flex-shrink: 0;
+    padding: 4px 8px;
+    border: 1px solid var(--border, #1a1a1a);
+    border-radius: 6px;
+    color: var(--ink-faint, #5f6c7a);
+}
+.ad-box a {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    text-decoration: none;
+    color: var(--ink, #e8eef4);
+    min-width: 0;
+}
+.ad-box a:hover .ad-box-title { color: var(--accent, #38bdf8); }
+.ad-box-title { font-weight: 700; font-size: 15px; }
+.ad-box-sub { font-size: 12.5px; color: var(--ink-dim, #9aa8b8); }

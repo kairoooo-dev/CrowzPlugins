@@ -219,6 +219,15 @@ footer{margin-top:40px;border-top:1px solid var(--border);background:var(--surfa
   .grid{grid-template-columns:1fr}
   .section-head{flex-direction:column;align-items:flex-start;gap:6px}
 }
+.ad-slot{display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 16px 4px}
+.ad-slot iframe{max-width:100%}
+.ad-tag{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.ad-box{max-width:728px;margin:18px auto;padding:14px 18px;border:1px dashed var(--border);border-radius:14px;background:var(--card);display:flex;align-items:center;gap:14px}
+.ad-box .ad-tag{flex-shrink:0;padding:4px 8px;border:1px solid var(--line);border-radius:6px}
+.ad-box a{display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--ink);min-width:0}
+.ad-box a:hover .ad-box-title{color:var(--accent)}
+.ad-box-title{font-weight:700;font-size:15px}
+.ad-box-sub{font-size:12.5px;color:var(--faint)}
 </style>
 <link rel="stylesheet" href="css/loader.css">
 </head>
@@ -308,6 +317,21 @@ footer{margin-top:40px;border-top:1px solid var(--border);background:var(--surfa
   </details>
 </section>
 
+<!-- Adsterra 728x90 banner (zone efd68d7928397e84335c6f462e08480a) -->
+<div class="ad-slot">
+    <span class="ad-tag">Advertisement</span>
+    <script>
+        atOptions = {
+            'key': 'efd68d7928397e84335c6f462e08480a',
+            'format': 'iframe',
+            'height': 90,
+            'width': 728,
+            'params': {}
+        };
+    </script>
+    <script src="https://www.highperformanceformat.com/efd68d7928397e84335c6f462e08480a/invoke.js"></script>
+</div>
+
 <div class="layout">
   <aside class="sidebar" aria-label="Sections">
     <p class="sidebar-label">On this page</p>
@@ -315,6 +339,15 @@ footer{margin-top:40px;border-top:1px solid var(--border);background:var(--surfa
     <div class="sidebar-progress"><span id="scroll-progress"></span></div>
   </aside>
   <main id="catalog"></main>
+</div>
+
+<!-- Adsterra direct-link ad -->
+<div class="ad-box">
+    <span class="ad-tag">Ad</span>
+    <a href="https://www.effectivecpmnetwork.com/j8jg9czmch?key=41a0d14ab77e6544eb77a31f2a86134a" target="_blank" rel="noopener sponsored">
+        <span class="ad-box-title">Sponsored</span>
+        <span class="ad-box-sub">Great Minecraft servers, plugins and more — click here</span>
+    </a>
 </div>
 
 <footer>
